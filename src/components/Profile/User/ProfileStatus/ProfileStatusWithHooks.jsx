@@ -7,11 +7,13 @@ const ProfileStatusWithHooks = props => {
 	const [editDescMode, setEditDescMode] = useState(false);
 
 	useEffect(() => {
-		setStatus(props.status);
+		setStatus(props.status || '');
 	}, [props.status]);
 
 	const activatedEditMode = () => {
-		setEditDescMode(true);
+		if (props.owner) {
+			setEditDescMode(true);
+		}
 	};
 
 	const deactivatedEditMode = () => {
@@ -36,7 +38,7 @@ const ProfileStatusWithHooks = props => {
 			<p className={s.description} onDoubleClick={activatedEditMode}>
 				Status:
 				{!editDescMode ? (
-					<span className={s.descriptionText}>{props.status || '/ no status'}</span>
+					<span className={s.descriptionText}>{props.status || 'no status'}</span>
 				) : (
 					<input
 						className={s.descriptionInput}
@@ -50,8 +52,7 @@ const ProfileStatusWithHooks = props => {
 			</p>
 			{/* <p>About Me: { props.aboutMe ? props.aboutMe : "nothing found" }</p> */}
 			<h3>
-				Looking for a job:{' '}
-				<span>{props.lookingForAJob ? props.lookingForAJobDescription : 'have a job'}</span>
+				Looking for a job: <span>{props.lookingForAJob ? props.lookingForAJobDescription : 'have a job'}</span>
 			</h3>
 		</div>
 	);

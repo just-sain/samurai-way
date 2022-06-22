@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 
-import { getStatus, updateStatus, getProfile, setUserProfile, resetPage } from '../../redux/profileReducer';
+import { getStatus, updateStatus, getProfile, resetPage, getFullProfile } from '../../redux/profileReducer';
 import Profile from './Profile';
 
 // props
@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 	profile: state.profilePage.profile,
 	status: state.profilePage.status,
 	posts: state.profilePage.posts,
-	selfID: state.auth.data.id,
+	selfID: Number(state.auth.data.id),
 	isAuth: state.auth.isAuth,
 });
 
@@ -19,7 +19,9 @@ const mapStateToProps = state => ({
 const withRouter = Component => {
 	return props => {
 		const navigate = useNavigate();
-		const { id } = useParams();
+		let { id } = useParams();
+
+		id = Number(id);
 
 		// checking is user authorized
 		useEffect(() => {
@@ -32,28 +34,31 @@ const withRouter = Component => {
 			}
 		}, [id]);
 
-		return <Component {...props} id={id} />;
+		return <Component {...props} owner={props.selfID === id} id={id} />;
 	};
 };
 
 // second container component
 class ProfileContainer extends React.PureComponent {
-	componentDidMount = () => {
+	refreshProfile = () => {
+		// i check existing id for... aa... just in case)
 		if (this.props.id && !isNaN(this.props.id)) {
-			this.props.getProfile(this.props.id);
-			this.props.getStatus(this.props.id);
+			if (this.props.profile?.userId !== parseInt(this.props.id)) {
+				this.props.getFullProfile(this.props.id);
+			}
 		}
+	};
+
+	componentDidMount = () => {
+		this.refreshProfile();
 	};
 
 	componentWillUnmount = () => {
 		this.props.resetPage();
 	};
 
-	componentDidUpdate = () => {
-		if (!isNaN(this.props.profile?.userId) && this.props.profile?.userId !== parseInt(this.props.id)) {
-			this.props.getProfile(this.props.id);
-			this.props.getStatus(this.props.id);
-		}
+	componentDidUpdate = prevProps => {
+		if (this.props.id !== prevProps.id) this.refreshProfile();
 	};
 
 	render = () => {
@@ -75,8 +80,8 @@ export default compose(
 		getStatus,
 		updateStatus,
 		getProfile,
-		setUserProfile,
 		resetPage,
+		getFullProfile,
 	}),
 	withRouter
 )(ProfileContainer);

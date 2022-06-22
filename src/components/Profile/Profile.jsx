@@ -14,7 +14,7 @@ const Profile = props => {
 	return (
 		<section className={s.profile}>
 			<div className={s.wrapper}>
-				<User profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
+				<User owner={props.owner} profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
 				<Posts posts={props.posts} />
 			</div>
 		</section>

@@ -61,15 +61,18 @@ const profileReducer = (state = initialState, action) => {
 };
 
 // thunks
+export const getFullProfile = userID => async dispatch => {
+	await dispatch(getProfile(userID));
+	await dispatch(getStatus(userID));
+};
+
 export const getProfile = userID => async dispatch => {
 	const data = await profileAPI.getProfile(userID);
-
 	dispatch(setUserProfile(data));
 };
 
 export const getStatus = userID => async dispatch => {
 	const data = await profileAPI.getStatus(userID);
-
 	dispatch(setStatus(data));
 };
 

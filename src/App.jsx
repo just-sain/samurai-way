@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { connect, Provider } from 'react-redux';
 import store from './redux/redux-store';
 // action creators from reducers
@@ -62,11 +62,11 @@ class App extends React.Component {
 const AppContainer = connect(mapState, { initializeApp })(App);
 
 const AppWithProvider = () => (
-	<HashRouter>
+	<BrowserRouter>
 		<Provider store={store}>
 			<AppContainer />
 		</Provider>
-	</HashRouter>
+	</BrowserRouter>
 );
 
 export default AppWithProvider;

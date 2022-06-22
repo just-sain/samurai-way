@@ -9,11 +9,16 @@ const User = props => {
 	return (
 		<div className={s.user}>
 			<img
-				src={props.profile.photos.large ? props.profile.photos.large : haveNotImage}
+				src={
+					props.profile.photos.large || props.profile.photos.small
+						? props.profile.photos.large || props.profile.photos.small
+						: haveNotImage
+				}
 				alt=''
 				className={s.img}
 			/>
 			<ProfileStatusWithHooks
+				owner={props.owner}
 				fullName={props.profile.fullName}
 				aboutMe={props.profile.aboutMe}
 				lookingForAJob={props.profile.lookingForAJob}

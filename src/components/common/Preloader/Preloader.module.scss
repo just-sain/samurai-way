@@ -1,7 +1,7 @@
 .loaderWrapper {
 	width: 80px;
 	height: 80px;
-	z-index: 100;
+	z-index: 1000;
 
 	position: absolute;
 	top: 50%;
@@ -20,7 +20,7 @@
 			transform-origin: 40px 40px;
 
 			&::after {
-				content: " ";
+				content: ' ';
 				display: block;
 				position: absolute;
 				width: 7px;
