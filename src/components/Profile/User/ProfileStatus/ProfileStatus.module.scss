@@ -1,0 +1,43 @@
+.about {
+	width: 50%;
+	margin-left: 2.5rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+
+	color: #abd1c6;
+	font-size: 1.7rem;
+
+	h2 {
+		margin-bottom: 1rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 0.1rem solid #f9bc60;
+
+		color: #fffffe;
+		font-size: 3rem;
+	}
+
+	h3 {
+		margin-bottom: 0.5rem;
+		font-size: 1.7rem;
+	}
+
+	.description {
+		width: 100%;
+		display: flex;
+
+		&Text,
+		&Input {
+			width: 100%;
+			margin-left: 0.5rem;
+		}
+
+		&Input {
+			background: none;
+			border: none;
+
+			color: #fff;
+		}
+	}
+}

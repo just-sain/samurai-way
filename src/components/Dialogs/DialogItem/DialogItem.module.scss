@@ -1,0 +1,22 @@
+.item {
+	margin-bottom: 1rem;
+	padding: .5rem 1rem;
+	cursor: pointer;
+	display: block;
+
+	border-left: 0 solid rgba(0, 0, 0, 0);
+
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: 400;
+
+	transition: border-left .3s ease;
+
+	&:hover {
+		border-left: 1.5rem solid #f9bc60;
+	}
+
+	&._active {
+		border-left: 1rem solid #e16162;
+	}
+}

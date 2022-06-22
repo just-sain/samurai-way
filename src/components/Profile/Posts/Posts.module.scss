@@ -1,0 +1,13 @@
+.postsContainer {
+	margin-top: 4rem;
+
+	.title {
+		margin-bottom: 2rem;
+		font-size: 3rem;
+	}
+
+	.posts {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+}

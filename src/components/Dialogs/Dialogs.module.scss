@@ -1,0 +1,34 @@
+.dialog {
+	width: 100%;
+	height: 100%;
+
+	display: grid;
+	grid-template-columns: 2fr 8fr;
+}
+
+.dialogs {
+	background: #00201f;
+	padding: 2rem;
+
+	.title {
+		margin-bottom: 3rem;
+
+		color: #f9bc60;
+		font-size: 2.5rem;
+		font-weight: 700;
+	}
+}
+
+.correspondence {
+	width: 100%;
+	height: 100%;
+	padding: 3rem 3rem 5rem 3rem;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	.messages {
+		padding: 1rem;
+	}
+}

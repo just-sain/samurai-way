@@ -1,0 +1,51 @@
+.user {
+	width: 100%;
+	margin-bottom: 3rem;
+	padding: 2rem;
+
+	background: #061c9644;
+
+	.name, .desc {
+		width: 100%;
+		margin-bottom: 1rem;
+
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+
+		.photo {
+			display: flex;
+			align-items: flex-start;
+
+			img {
+				width: 7rem;
+				height: 7rem;
+				margin-right: 2rem;
+
+				border-radius: 50%;
+			}
+
+			h3 {
+				text-transform: capitalize;
+				font-size: 1.8rem;
+			}
+		}
+
+		button {
+			padding: 1rem 2rem;
+			opacity: 1;
+			cursor: pointer;
+
+			background: transparent;
+			border: .1rem solid #fffffe;
+
+			transition: all .3s ease;
+
+			&:disabled {
+				opacity: .6;
+				background: #fffffe;
+				color: #003836;
+			}
+		}
+	}
+}

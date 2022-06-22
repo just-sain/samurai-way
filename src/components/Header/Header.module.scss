@@ -1,0 +1,75 @@
+.header {
+	grid-area: header;
+	padding: 1rem;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	background: #001e1d;
+	border-bottom: .1rem solid #fffffe;
+
+	.logo {
+		height: 100%;
+		cursor: pointer;
+		display: flex;
+
+		.title {
+			margin-left: 1rem;
+			color: #fffffe;
+			font-style: italic;
+			font-size: 3rem;
+			font-weight: 400;
+		}
+
+		img {
+			width: auto;
+			height: 100%;
+		}
+	}
+
+	.loginBlock {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+
+		.authElem {
+			padding: .8rem 1.5rem;
+			cursor: pointer;
+			text-transform: capitalize;
+
+			&.signUp {
+				background: transparent;
+				border: .1rem solid #fffffe;
+				color: #fffffe;
+
+				transition: all .4s ease;
+
+				&:hover {
+					background: #f9bc60;
+					border: .1rem solid transparent;
+					color: #001e1d;
+				}
+			}
+
+			&.signOut {
+				background: #fffffe;
+				border: .1rem solid transparent;
+				color: #001e1d;
+
+				transition: all .4s ease;
+
+				&:hover {
+					background: transparent;
+					border: .1rem solid #e16162;
+					color: #e16162;
+				}
+			}
+		}
+	}
+
+	.userName {
+		text-decoration: underline;
+		font-size: 1.8rem;
+	}
+}
