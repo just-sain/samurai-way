@@ -73,6 +73,13 @@ export const getFullProfile = userID => async dispatch => {
 	await dispatch(getStatus(userID));
 };
 
+export const saveProfile = profileData => async dispatch => {
+	const data = await profileAPI.updateProfile(profileData);
+	if (data.resultCode === 0) {
+		dispa;
+	}
+};
+
 export const getProfile = userID => async dispatch => {
 	const data = await profileAPI.getProfile(userID);
 	dispatch(setUserProfile(data));

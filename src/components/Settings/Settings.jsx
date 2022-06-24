@@ -11,6 +11,9 @@ const Settings = () => {
 				<NavLink className={s.link} to='profile'>
 					Profile settings
 				</NavLink>
+				<NavLink className={s.link} to='/error'>
+					Error Page
+				</NavLink>
 			</div>
 		</section>
 	);

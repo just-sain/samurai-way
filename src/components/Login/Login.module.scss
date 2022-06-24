@@ -7,6 +7,8 @@
 	justify-content: center;
 	align-items: center;
 
+	accent-color: #f9bc60;
+
 	.form {
 		width: 25vw;
 
@@ -19,18 +21,18 @@
 			position: relative;
 
 			.showPassword {
-				margin-top: .5rem;
+				margin-top: 0.5rem;
 				display: flex;
 				gap: 1rem;
 			}
 
 			input {
 				width: 100%;
-				padding: .6rem 1rem;
+				padding: 0.6rem 1rem;
 				display: block;
 
 				background: none;
-				border: .1rem solid #fff;
+				border: 0.1rem solid #fff;
 
 				color: #fff;
 				font-size: 1.5rem;
@@ -59,7 +61,7 @@
 
 			color: #000;
 
-			transition: box-shadow .4s ease;
+			transition: box-shadow 0.4s ease;
 
 			&:hover {
 				box-shadow: 0 0 5rem 1rem #fff;

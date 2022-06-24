@@ -14,6 +14,7 @@
 		padding: 1rem 2.5rem;
 
 		background: #001e1d;
+		border: 0.3rem solid #fff;
 		border-radius: 15px 225px 15px / 255px 15px 225px 15px;
 
 		color: #f9bc60;
@@ -21,21 +22,81 @@
 		font-size: 5rem;
 	}
 
-	.content {
+	.form {
+		max-width: 75%;
 		width: 100%;
 		height: 100%;
-		margin-top: 3rem;
 
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
-		align-items: center;
+		align-items: stretch;
+		padding-bottom: 10rem;
 
-		text-align: center;
-		font-size: 1.8rem;
+		accent-color: #f9bc60;
+		text-align: start;
 
-		p {
+		&Block {
+			margin-top: 2rem;
+
 			font-size: 1.8rem;
+			font-family: 'Marck Script', cursive;
+
+			position: relative;
+
+			input {
+				width: 100%;
+				padding: 0.6rem 1rem;
+				display: inline-block;
+
+				outline: none;
+				background: none;
+				border: 0.1rem solid #fff;
+
+				color: #fff;
+				font-size: 1.6rem;
+
+				transition: border 0.4s ease;
+
+				&:hover,
+				&:focus {
+					border: 0.1rem solid #f9bc60;
+				}
+			}
+
+			.checkbox {
+				width: auto;
+				display: inline-block;
+			}
+
+			&.blockBtns {
+				margin-top: 5rem;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
+
+		.button {
+			padding: 1rem 2.5rem;
+			cursor: pointer;
+
+			display: inline-block;
+
+			background: #fff;
+			box-shadow: 0 0 3rem #fff;
+
+			color: #000;
+			font-family: 'Marck Script', cursive;
+			font-size: 2rem;
+
+			transition: box-shadow 0.4s ease, background 0.4s ease;
+
+			&:hover {
+				box-shadow: 0 0 4rem 1rem #f9bc60;
+				background: #f9bc60;
+			}
 		}
 	}
 }

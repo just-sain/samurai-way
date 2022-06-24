@@ -2,28 +2,29 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { getFullProfile, savePhoto, updateStatus } from '../../../redux/profileReducer';
+import { getFullProfile, savePhoto, updateStatus, saveProfile } from '../../../redux/profileReducer';
 
 import withAuthNavigate from '../../../hoc/withAuthNavigate';
+import Preloader from '../../common/Preloader/Preloader';
 import ProfileSettings from './ProfileSettings';
 
 class ProfileSettingsContainer extends React.PureComponent {
 	componentDidMount = () => {
-		if (this.props.id && !isNaN(this.props.id)) {
-			if (this.props.profile?.userId !== parseInt(this.props.id)) {
-				this.props.getFullProfile(this.props.id);
-			}
+		if (this.props.profile?.userId !== parseInt(this.props.id)) {
+			this.props.getFullProfile(this.props.id);
 		}
 	};
 
 	render = () => {
+		if (!this.props.profile || !this.props.status) return <Preloader />;
 		return (
 			<ProfileSettings
 				id={this.props.id}
 				profile={this.props.profile}
 				savePhoto={this.props.savePhoto}
-				getStatus={this.props.getStatus}
+				status={this.props.status}
 				updateStatus={this.props.updateStatus}
+				saveProfile={this.props.saveProfile}
 			/>
 		);
 	};
@@ -36,6 +37,6 @@ const mapState = state => ({
 });
 
 export default compose(
-	connect(mapState, { getFullProfile, savePhoto, updateStatus }),
+	connect(mapState, { getFullProfile, savePhoto, updateStatus, saveProfile }),
 	withAuthNavigate
 )(ProfileSettingsContainer);
