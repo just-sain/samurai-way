@@ -10,14 +10,11 @@ const Aside = props => {
 		{ path: '/', text: 'News' },
 		{ path: '/users', text: 'Find Users' },
 		{ path: '/music', text: 'Music' },
-		{ path: '/settings', text: 'Setting' },
+		{ path: '/settings', text: 'Settings' },
 	];
 
 	const renderLinks = links.map((link, index) => (
-		<NavLink
-			key={index}
-			to={link.path}
-			className={navData => (navData.isActive ? `${s.link} ${s._active}` : s.link)}>
+		<NavLink key={index} to={link.path} className={navData => (navData.isActive ? `${s.link} ${s._active}` : s.link)}>
 			{link.text}
 		</NavLink>
 	));

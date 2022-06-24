@@ -10,7 +10,7 @@ const MyPosts = React.memo(props => {
 
 	return (
 		<div className={s.publish}>
-			<FormContainer />
+			{props.owner && <FormContainer />}
 
 			<div className={s.postsContainer}>
 				<h1 className={s.title}>My posts</h1>

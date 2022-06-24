@@ -14,8 +14,14 @@ const Profile = props => {
 	return (
 		<section className={s.profile}>
 			<div className={s.wrapper}>
-				<User owner={props.owner} profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
-				<Posts posts={props.posts} />
+				<User
+					owner={props.owner}
+					profile={props.profile}
+					savePhoto={props.savePhoto}
+					status={props.status}
+					updateStatus={props.updateStatus}
+				/>
+				<Posts posts={props.posts} owner={props.owner} />
 			</div>
 		</section>
 	);

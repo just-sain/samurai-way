@@ -1,0 +1,104 @@
+.about {
+	width: 50%;
+	margin-left: 5rem;
+	padding: 2rem;
+	padding-bottom: 0.5rem;
+	z-index: 1;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
+
+	color: #abd1c6;
+	font-family: 'Pacifico', cursive;
+	font-size: 1.4rem;
+
+	position: relative;
+
+	transform: rotate(4deg);
+
+	&::before {
+		width: 100%;
+		height: 100%;
+		content: 'description';
+		z-index: -4;
+
+		background: #001e1d;
+		box-shadow: 0 0 2rem #000000;
+		border-radius: 255px 15px 225px 15px/15px 225px 15px;
+
+		position: absolute;
+		top: -0%;
+		left: -0%;
+
+		transform: rotate(0);
+	}
+
+	&::after {
+		width: 107.5%;
+		height: 107.5%;
+		padding: 0.5rem;
+		content: ':3';
+		z-index: -5;
+
+		background: #001e1d;
+		box-shadow: 0 0 5rem #000000;
+		border-radius: 255px 15px 225px 15px/15px 225px 15px;
+
+		position: absolute;
+		top: -2.5%;
+		left: -2.5%;
+
+		transform: rotate(-5deg);
+	}
+
+	span {
+		margin-left: 0.5rem;
+		font-family: 'Marck Script', cursive;
+		font-size: 2rem;
+	}
+
+	.topPart {
+		h2 {
+			margin: 0.2rem 0 1rem;
+			border-bottom: 0.1rem solid #f9bc60;
+
+			color: #fcb140;
+			font-family: 'Marck Script', cursive;
+			font-size: 3rem;
+		}
+
+		h3 {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	.bottomPart {
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.editMode {
+		width: 2.5rem;
+		height: 2.5rem;
+		padding: 0.5rem;
+		z-index: 5;
+		cursor: pointer;
+
+		background: #ffffff41;
+		border-radius: 50%;
+
+		position: absolute;
+		bottom: 0;
+		right: 0;
+
+		transition: background 0.3s;
+
+		&:hover {
+			background: #ffffffb7;
+		}
+	}
+}

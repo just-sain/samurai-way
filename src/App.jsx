@@ -21,6 +21,9 @@ const ProfileContainer = withSuspense(lazy(() => import('./components/Profile/Pr
 const News = withSuspense(lazy(() => import('./components/News/News')));
 const Music = withSuspense(lazy(() => import('./components/Music/Music')));
 const Settings = withSuspense(lazy(() => import('./components/Settings/Settings')));
+const ProfileSettingsContainer = withSuspense(
+	lazy(() => import('./components/Settings/ProfileSettings/ProfileSettingsContainer'))
+);
 const DialogsContainer = withSuspense(lazy(() => import('./components/Dialogs/DialogsContainer')));
 const UsersContainer = withSuspense(lazy(() => import('./components/Users/UsersContainer')));
 
@@ -51,6 +54,7 @@ class App extends React.Component {
 						<Route path='/users' element={<UsersContainer />} />
 						<Route path='/music' element={<Music />} />
 						<Route path='/settings' element={<Settings />} />
+						<Route path='/settings/profile' element={<ProfileSettingsContainer />} />
 						<Route path='*' element={<Error404 />} />
 					</Routes>
 				</main>

@@ -1,27 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 
-import { getStatus, updateStatus, getProfile, resetPage, getFullProfile } from '../../redux/profileReducer';
+import { getStatus, updateStatus, getProfile, resetPage, getFullProfile, savePhoto } from '../../redux/profileReducer';
 import Profile from './Profile';
-
-// props
-const mapStateToProps = state => ({
-	profile: state.profilePage.profile,
-	status: state.profilePage.status,
-	posts: state.profilePage.posts,
-	selfID: Number(state.auth.data.id),
-	isAuth: state.auth.isAuth,
-});
+import Error404 from '../errors/Error404/Error404';
 
 // wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
 const withRouter = Component => {
 	return props => {
 		const navigate = useNavigate();
 		let { id } = useParams();
-
-		id = Number(id);
+		let isFound = true;
 
 		// checking is user authorized
 		useEffect(() => {
@@ -30,11 +21,16 @@ const withRouter = Component => {
 			}
 			// if id from params is not correct
 			if (!id || isNaN(id)) {
-				navigate('/not-found');
+				isFound = false;
 			}
 		}, [id]);
 
-		return <Component {...props} owner={props.selfID === id} id={id} />;
+		// fucking useEffect!
+		if (!id || isNaN(id)) {
+			isFound = false;
+		}
+
+		return <Component {...props} owner={props.selfID === Number(id)} isFound={isFound} id={Number(id)} />;
 	};
 };
 
@@ -62,10 +58,15 @@ class ProfileContainer extends React.PureComponent {
 	};
 
 	render = () => {
+		if (!this.props.isFound) {
+			return <Error404 />;
+		}
+
 		return (
 			<Profile
 				{...this.props}
 				profile={this.props.profile}
+				savePhoto={this.props.savePhoto}
 				getStatus={this.props.getStatus}
 				updateStatus={this.props.updateStatus}
 				posts={this.props.posts}
@@ -73,6 +74,15 @@ class ProfileContainer extends React.PureComponent {
 		);
 	};
 }
+
+// props
+const mapStateToProps = state => ({
+	profile: state.profilePage.profile,
+	status: state.profilePage.status,
+	posts: state.profilePage.posts,
+	selfID: Number(state.auth.data.id),
+	isAuth: state.auth.isAuth,
+});
 
 // from right to left
 export default compose(
@@ -82,6 +92,7 @@ export default compose(
 		getProfile,
 		resetPage,
 		getFullProfile,
+		savePhoto,
 	}),
 	withRouter
 )(ProfileContainer);

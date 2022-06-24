@@ -7,7 +7,7 @@
 	align-items: center;
 
 	background: #001e1d;
-	border-bottom: .1rem solid #fffffe;
+	border-bottom: 0.1rem solid #fffffe;
 
 	.logo {
 		height: 100%;
@@ -16,8 +16,9 @@
 
 		.title {
 			margin-left: 1rem;
+
 			color: #fffffe;
-			font-style: italic;
+			font-family: 'Marck Script', cursive;
 			font-size: 3rem;
 			font-weight: 400;
 		}
@@ -34,34 +35,34 @@
 		gap: 2rem;
 
 		.authElem {
-			padding: .8rem 1.5rem;
+			padding: 0.8rem 1.5rem;
 			cursor: pointer;
 			text-transform: capitalize;
 
 			&.signUp {
 				background: transparent;
-				border: .1rem solid #fffffe;
+				border: 0.1rem solid #fffffe;
 				color: #fffffe;
 
-				transition: all .4s ease;
+				transition: all 0.4s ease;
 
 				&:hover {
 					background: #f9bc60;
-					border: .1rem solid transparent;
+					border: 0.1rem solid transparent;
 					color: #001e1d;
 				}
 			}
 
 			&.signOut {
 				background: #fffffe;
-				border: .1rem solid transparent;
+				border: 0.1rem solid transparent;
 				color: #001e1d;
 
-				transition: all .4s ease;
+				transition: all 0.4s ease;
 
 				&:hover {
 					background: transparent;
-					border: .1rem solid #e16162;
+					border: 0.1rem solid #e16162;
 					color: #e16162;
 				}
 			}
