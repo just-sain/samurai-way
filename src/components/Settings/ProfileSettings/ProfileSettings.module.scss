@@ -91,11 +91,21 @@
 			font-family: 'Marck Script', cursive;
 			font-size: 2rem;
 
-			transition: box-shadow 0.4s ease, background 0.4s ease;
+			transition: box-shadow 0.4s ease, background 0.4s ease, opacity 0.4s ease;
 
 			&:hover {
 				box-shadow: 0 0 4rem 1rem #f9bc60;
 				background: #f9bc60;
+			}
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+
+				&:hover {
+					background: #fff;
+					box-shadow: 0 0 3rem #fff;
+				}
 			}
 		}
 	}

@@ -1,165 +1,187 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useMemo, useEffect } from 'react';
+import { useForm, useFormState } from 'react-hook-form';
 
 import s from './ProfileSettings.module.scss';
 import errorStyle from '../../common/styles/errors.module.scss';
 
 const ProfileSettings = props => {
-	const {
-		handleSubmit,
-		register,
-		watch,
-		formState: { errors },
-	} = useForm({
-		mode: 'onBlur',
-		defaultValues: {
-			// i also check for undefined or null and replace it to empty string
-			fullName: !props.profile.fullName ? '' : props.profile.fullName,
-			aboutMe: !props.profile.aboutMe ? '' : props.profile.aboutMe,
-			status: !props.status ? '' : props.status,
-			isLookingForAJob: !props.profile.lookingForAJob ? false : props.profile.lookingForAJob,
-			skills: !props.profile.lookingForAJobDescription ? '' : props.profile.lookingForAJobDescription,
-		},
-	});
-
 	const onSubmit = data => {
-		console.log(data);
 		props.saveProfile({
 			fullName: data.fullName,
 			aboutMe: data.aboutMe,
 			lookingForAJob: data.isLookingForAJob,
 			lookingForAJobDescription: data.skills,
+			contacts: { ...props.profile.contacts },
 		});
+		props.updateStatus(data.status);
 	};
 
 	return (
 		<section className={s.section}>
 			<h1 className={s.title}>Profile Settings</h1>
-			<form className={`${s.form}`} onSubmit={handleSubmit(onSubmit)}>
-				{/* immutable block with id  */}
-				<div className={s.formBlock}>
-					id: <span>{props.profile.userId}</span>
+			<Form onSubmit={onSubmit} id={props.id} profile={props.profile} status={props.status} messages={props.messages} />
+		</section>
+	);
+};
+
+const Form = props => {
+	const defaultValues = {
+		fullName: !props.profile.fullName ? '' : props.profile.fullName,
+		aboutMe: !props.profile.aboutMe ? '' : props.profile.aboutMe,
+		status: !props.status ? '' : props.status,
+		isLookingForAJob: !props.profile.lookingForAJob ? false : props.profile.lookingForAJob,
+		skills: !props.profile.lookingForAJobDescription ? '' : props.profile.lookingForAJobDescription,
+		contacts: { ...props.profile.contacts },
+	};
+	const {
+		handleSubmit,
+		register,
+		control,
+		reset,
+		getValues,
+		formState: { errors },
+	} = useForm({
+		mode: 'onBlur',
+		defaultValues: useMemo(() => defaultValues, [props.profile, props.status]),
+	});
+	const { isDirty } = useFormState({ control });
+
+	useEffect(() => {
+		reset(getValues());
+	}, [props.profile, props.status]);
+
+	const capitalizeLetter = string => {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	};
+
+	return (
+		<form className={`${s.form}`} onSubmit={handleSubmit(props.onSubmit)}>
+			{/* immutable block with id  */}
+			<div className={s.formBlock}>
+				id: <span>{props.profile.userId}</span>
+			</div>
+			{/* fullName */}
+			<div className={s.formBlock}>
+				Full name
+				<input
+					{...register('fullName', {
+						required: 'full name field is required!',
+						maxLength: {
+							value: 50,
+							message: 'job description field max length is 50',
+						},
+					})}
+					type='text'
+					placeholder='Full name'
+				/>
+				<div className={`${errorStyle.error} ${errors.fullName && errorStyle.showTop}`}>
+					<span>{errors.fullName && errors.fullName.message}</span>
 				</div>
-				{/* fullName */}
-				<div className={s.formBlock}>
-					Full name
+			</div>
+			{/* aboutMe */}
+			<div className={s.formBlock}>
+				About me
+				<input
+					{...register('aboutMe', {
+						maxLength: {
+							value: 1000,
+							message: 'job description field max length is 1000',
+						},
+					})}
+					type='text'
+					placeholder='About me'
+				/>
+				<div className={`${errorStyle.error} ${errors.aboutMe && errorStyle.showTop}`}>
+					<span>{errors.aboutMe && errors.aboutMe.message}</span>
+				</div>
+			</div>
+			{/* status */}
+			<div className={s.formBlock}>
+				Status
+				<input
+					{...register('status', {
+						maxLength: {
+							value: 300,
+							message: 'job description field max length is 300',
+						},
+					})}
+					type='text'
+					placeholder='Status'
+				/>
+				<div className={`${errorStyle.error} ${errors.status && errorStyle.showTop}`}>
+					<span>{errors.status && errors.status.message}</span>
+				</div>
+			</div>
+			{/* lookingForAJob */}
+			<div className={s.formBlock}>
+				<label>
 					<input
-						{...register('fullName', {
-							required: 'full name field is required!',
-							maxLength: {
-								value: 30,
-								message: 'job description field max length is 30',
-							},
-						})}
-						type='text'
-						placeholder='Full name'
+						{...register('isLookingForAJob')}
+						className={s.checkbox}
+						name='isLookingForAJob'
+						type='checkbox'
+						style={{ marginRight: '1rem' }}
 					/>
-					<div className={`${errorStyle.error} ${errors.fullName && errorStyle.showTop}`}>
-						<span>{errors.fullName && errors.fullName.message}</span>
-					</div>
-				</div>
-				{/* aboutMe */}
-				<div className={s.formBlock}>
-					About me
+					Looking for a job
+				</label>
+			</div>
+			{/* job description/skills */}
+			<div className={s.formBlock}>
+				<label>
+					Skills
 					<input
-						{...register('aboutMe', {
+						{...register('skills', {
 							maxLength: {
 								value: 300,
 								message: 'job description field max length is 300',
 							},
 						})}
 						type='text'
-						placeholder='About me'
+						placeholder='Your skills'
 					/>
-					<div className={`${errorStyle.error} ${errors.aboutMe && errorStyle.showTop}`}>
-						<span>{errors.aboutMe && errors.aboutMe.message}</span>
-					</div>
+				</label>
+				<div className={`${errorStyle.error} ${errors.skills && errorStyle.showTop}`}>
+					<span>{errors.skills && errors.skills.message}</span>
 				</div>
-				{/* status */}
-				<div className={s.formBlock}>
-					Status
-					<input
-						{...register('status', {
-							maxLength: {
-								value: 300,
-								message: 'job description field max length is 300',
-							},
-						})}
-						type='text'
-						placeholder='Status'
-					/>
-					<div className={`${errorStyle.error} ${errors.status && errorStyle.showTop}`}>
-						<span>{errors.status && errors.status.message}</span>
-					</div>
-				</div>
-				{/* lookingForAJob */}
-				<div className={s.formBlock}>
+			</div>
+			{/* contacts */}
+			{Object.keys(props.profile.contacts).map(key => (
+				<div className={s.formBlock} key={key}>
 					<label>
+						<span style={{ textTransform: 'capitalize' }}>{key === 'mainLink' ? 'Main' : capitalizeLetter(key)}</span>
 						<input
-							{...register('isLookingForAJob')}
-							className={s.checkbox}
-							name='isLookingForAJob'
-							type='checkbox'
-							style={{ marginRight: '1rem' }}
-						/>
-						Looking for a job
-					</label>
-				</div>
-				{/* job description */}
-				<div className={s.formBlock}>
-					<label>
-						Skills
-						<input
-							{...register('skills', {
-								maxLength: {
-									value: 50,
-									message: 'job description field max length is 50',
-								},
-							})}
+							{...register(`contacts.${key}`)}
 							type='text'
-							placeholder='Your skills'
+							placeholder={`${key === 'mainLink' ? 'Main' : capitalizeLetter(key)} link`}
 						/>
 					</label>
-					<div className={`${errorStyle.error} ${errors.skills && errorStyle.showTop}`}>
-						<span>{errors.skills && errors.skills.message}</span>
-					</div>
 				</div>
-				{/* contacts */}
-				{/* status
-				<div className={s.formBlock}>
-					<h1>Contacts</h1>
-				</div>
-				<div className={s.formBlock}>
-					status
-					<input
-						{...register('status', {
-							required: 'status field is required!',
-							maxLength: {
-								value: 300,
-								message: 'job description field max length is 300',
-							},
-						})}
-						type='text'
-						placeholder='Status'
-					/>
-					<div className={`${errorStyle.error} ${errors.status && errorStyle.showTop}`}>
-						<span>{errors.status && errors.status.message}</span>
-					</div>
-				</div> */}
-				{/* {props.isFormWrong && (
+			))}
+
+			{
+				// form errors
+				props.messages.length !== 0 && (
 					<div className={errorStyle.formError}>
 						{props.messages.map((text, index) => (
 							<p key={index}>{text}</p>
 						))}
 					</div>
-				)} */}
-				<div className={`${s.formBlock} ${s.blockBtns}`}>
+				)
+			}
+
+			{/* button */}
+			<div className={`${s.formBlock} ${s.blockBtns}`}>
+				{isDirty ? (
 					<button className={s.button} type='submit'>
 						Save
 					</button>
-				</div>
-			</form>
-		</section>
+				) : (
+					<button className={s.button} disabled type='submit'>
+						Save
+					</button>
+				)}
+			</div>
+		</form>
 	);
 };
 

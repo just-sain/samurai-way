@@ -1,4 +1,5 @@
 import { profileAPI } from '../api/api';
+import { setProfileErrors } from './errorsReducer';
 
 const ADD_POST = 'profile/ADD-POST',
 	DELETE_POST = 'profile/DELETE_POST',
@@ -34,7 +35,7 @@ const profileReducer = (state = initialState, action) => {
 		case DELETE_POST: {
 			return {
 				...state,
-				posts: [...state.posts.filter(post => post.id != action.postID)],
+				posts: [...state.posts.filter(post => post.id !== action.postID)],
 			};
 		}
 		case SET_USER_PROFILE: {
@@ -73,22 +74,29 @@ export const getFullProfile = userID => async dispatch => {
 	await dispatch(getStatus(userID));
 };
 
-export const saveProfile = profileData => async dispatch => {
-	const data = await profileAPI.updateProfile(profileData);
-	if (data.resultCode === 0) {
-		dispa;
-	}
-};
-
 export const getProfile = userID => async dispatch => {
 	const data = await profileAPI.getProfile(userID);
 	dispatch(setUserProfile(data));
+};
+
+export const saveProfile = profileData => async (dispatch, getState) => {
+	const id = getState().auth.data.id;
+	const data = await profileAPI.updateProfile(profileData);
+	if (data.resultCode === 0) {
+		dispatch(getFullProfile(id));
+		dispatch(setProfileErrors(data.messages));
+	} else {
+		if (data.messages.length !== 0) dispatch(setProfileErrors(data.messages));
+	}
 };
 
 export const savePhoto = photo => async dispatch => {
 	const data = await profileAPI.updatePhoto(photo);
 	if (data.resultCode === 0) {
 		dispatch(savePhotoSuccess(data.data.photos));
+		dispatch(setProfileErrors(data.messages));
+	} else {
+		if (data.messages.length !== 0) dispatch(setProfileErrors(data.messages));
 	}
 };
 
@@ -101,6 +109,9 @@ export const updateStatus = status => async dispatch => {
 	const data = await profileAPI.updateStatus(status);
 	if (data.resultCode === 0) {
 		dispatch(setStatus(status));
+		dispatch(setProfileErrors(data.messages));
+	} else {
+		if (data.messages.length !== 0) dispatch(setProfileErrors(data.messages));
 	}
 };
 

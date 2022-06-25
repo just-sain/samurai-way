@@ -1,8 +1,7 @@
 import { authAPI } from '../api/api';
+import { setLoginErrors } from './errorsReducer';
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
-const SET_FORM_ERROR = 'auth/SET_FORM_ERROR';
-const RESET_LOGIN_PAGE = 'auth/RESET_LOGIN_PAGE';
 
 const initialState = {
 	data: {
@@ -12,10 +11,6 @@ const initialState = {
 	},
 	profile: null, // it's object with fullName, picture and etc.
 	isAuth: false,
-
-	// for login page
-	isFormWrong: false,
-	messages: [],
 };
 
 const authReducer = (state = initialState, action) => {
@@ -27,20 +22,7 @@ const authReducer = (state = initialState, action) => {
 				isAuth: action.isAuth,
 			};
 		}
-		case SET_FORM_ERROR: {
-			return {
-				...state,
-				isFormWrong: true,
-				messages: action.messages,
-			};
-		}
-		case RESET_LOGIN_PAGE: {
-			return {
-				...state,
-				isFormWrong: false,
-				messages: [],
-			};
-		}
+
 		default: {
 			return state;
 		}
@@ -62,12 +44,9 @@ export const login = (email, password, rememberMe) => async dispatch => {
 
 	if (data.resultCode === 0) {
 		dispatch(authMe());
-	} else if (data.resultCode === 10) {
-		alert('you should done captcha');
+		dispatch(setLoginErrors(data.messages));
 	} else {
-		if (data.messages.length > 0) {
-			dispatch(setFormError(data.messages));
-		}
+		if (data.messages.length !== 0) dispatch(setLoginErrors(data.messages));
 	}
 };
 
@@ -87,7 +66,5 @@ export const setUserData = (id, login, email, isAuth) => ({
 	email,
 	isAuth,
 });
-export const setFormError = messages => ({ type: SET_FORM_ERROR, messages });
-export const resetLoginPage = () => ({ type: RESET_LOGIN_PAGE });
 
 export default authReducer;

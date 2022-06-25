@@ -6,10 +6,14 @@ import authReducer from './authReducer';
 import dialogsReducer from './dialogsReducer';
 import profileReducer from './profileReducer';
 import usersReducer from './usersReducer';
+import errorsReducer from './errorsReducer';
 
 const reducers = combineReducers({
+	// global
 	app: appReducer,
 	auth: authReducer,
+	errors: errorsReducer,
+	// pages
 	profilePage: profileReducer,
 	dialogsPage: dialogsReducer,
 	usersPage: usersReducer,

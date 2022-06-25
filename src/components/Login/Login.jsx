@@ -5,6 +5,8 @@ import s from './Login.module.scss';
 import errorStyle from '../common/styles/errors.module.scss';
 
 const Login = props => {
+	console.log(props.messages);
+
 	const onSubmit = data => {
 		props.login(data.email, data.password, data.rememberMe);
 	};
@@ -73,13 +75,16 @@ const LoginForm = props => {
 				</label>
 			</div>
 
-			{props.isFormWrong && (
-				<div className={errorStyle.formError}>
-					{props.messages.map((text, index) => (
-						<p key={index}>{text}</p>
-					))}
-				</div>
-			)}
+			{
+				// form errors
+				props.messages.length !== 0 && (
+					<div className={errorStyle.formError}>
+						{props.messages.map((text, index) => (
+							<p key={index}>{text}</p>
+						))}
+					</div>
+				)
+			}
 
 			<div className={`${s.formBlock} ${s.blockBtns}`}>
 				<button className={s.button} onClick={() => reset()}>

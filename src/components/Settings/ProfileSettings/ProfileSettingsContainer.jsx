@@ -23,6 +23,7 @@ class ProfileSettingsContainer extends React.PureComponent {
 				profile={this.props.profile}
 				savePhoto={this.props.savePhoto}
 				status={this.props.status}
+				messages={this.props.messages}
 				updateStatus={this.props.updateStatus}
 				saveProfile={this.props.saveProfile}
 			/>
@@ -34,6 +35,7 @@ const mapState = state => ({
 	id: Number(state.auth.data.id),
 	profile: state.profilePage.profile,
 	status: state.profilePage.status,
+	messages: state.errors.profileMessages,
 });
 
 export default compose(

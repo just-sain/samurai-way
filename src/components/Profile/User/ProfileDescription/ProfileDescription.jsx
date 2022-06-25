@@ -21,9 +21,13 @@ const ProfileDescription = props => {
 				</h3>
 			</div>
 			<div className={s.bottomPart}>
-				{Object.keys(props.contacts).map(key => {
-					if (props.contacts[key]) return <ProfileContact key={key} title={key} link={props.contacts[key]} />;
-				})}
+				{Object.keys(props.contacts)
+					.filter(key => props.contacts[key])
+					.map(key => {
+						return (
+							<ProfileContact key={key} title={key === 'mainLink' ? 'main' : key} link={props.contacts[key]} />
+						);
+					})}
 			</div>
 
 			{props.owner && (
