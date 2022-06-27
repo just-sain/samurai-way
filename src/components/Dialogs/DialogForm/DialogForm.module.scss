@@ -9,7 +9,7 @@
 		padding: 1rem;
 
 		background: #0000003f;
-		border: .2rem solid #000;
+		border: 0.2rem solid #000;
 		outline: none;
 
 		color: #fff;
@@ -17,12 +17,19 @@
 
 	.btn {
 		padding: 1rem 2rem;
+		opacity: 1;
 		cursor: pointer;
 
 		background: #ffffffb7;
-		border: .2rem solid #ffffff;
+		border: 0.2rem solid #ffffff;
 
 		color: #000;
+
+		transition: opacity 0.3s ease;
+
+		&:disabled {
+			opacity: 0.5;
+		}
 	}
 
 	&Block {
@@ -36,13 +43,13 @@
 	opacity: 0;
 
 	background: #cc2525;
-	border-radius: .7rem;
+	border-radius: 0.7rem;
 
 	position: absolute;
 	top: 0;
 	left: 105%;
 
-	transition: opacity .3s ease;
+	transition: opacity 0.3s ease;
 
 	span {
 		width: 100%;
@@ -51,7 +58,7 @@
 	}
 
 	&.show {
-		padding: .5rem;
+		padding: 0.5rem;
 		opacity: 1;
 	}
 }

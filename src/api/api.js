@@ -11,8 +11,8 @@ export const authAPI = {
 		const response = await instance.get(`auth/me`);
 		return response.data;
 	},
-	login: async (email, password, rememberMe) => {
-		const response = await instance.post(`auth/login`, { email, password, rememberMe });
+	login: async (email, password, rememberMe, captcha) => {
+		const response = await instance.post(`auth/login`, { email, password, rememberMe, captcha });
 		return response.data;
 	},
 	logout: async () => {
@@ -65,5 +65,12 @@ export const usersAPI = {
 		// example for obsolete method
 		console.warn('Obsolete method. Please use method in profileAPI object.');
 		return profileAPI.getProfile(userID); // using delegation
+	},
+};
+
+export const security = {
+	getCaptcha: async () => {
+		const response = await instance.get(`security/get-captcha-url`);
+		return response.data;
 	},
 };

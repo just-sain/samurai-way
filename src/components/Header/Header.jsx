@@ -12,9 +12,9 @@ const Header = props => {
 					<NavLink to={`/profile/${props.data.id}`} className={s.userName}>
 						{props.data.login}
 					</NavLink>
-					<button onClick={props.logout} className={`${s.signOut} ${s.authElem}`}>
+					<NavLink to={`/login`} onClick={props.logout} className={`${s.signOut} ${s.authElem}`}>
 						sign out
-					</button>
+					</NavLink>
 				</div>
 			);
 		} else {

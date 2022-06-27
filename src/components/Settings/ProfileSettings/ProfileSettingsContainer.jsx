@@ -35,7 +35,7 @@ const mapState = state => ({
 	id: Number(state.auth.data.id),
 	profile: state.profilePage.profile,
 	status: state.profilePage.status,
-	messages: state.errors.profileMessages,
+	messages: state.errors.profileErrors.messages,
 });
 
 export default compose(

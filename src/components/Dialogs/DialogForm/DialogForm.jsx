@@ -1,19 +1,15 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 
 import s from './DialogForm.module.scss';
 
 const DialogForm = props => {
-	const {
-		register,
-		handleSubmit,
-		resetField,
-		formState: { errors },
-	} = useForm({ mode: 'onBlur' });
+	const { register, handleSubmit, reset, control } = useForm({ mode: 'onBlur' });
+	const { isDirty } = useFormState({ control });
 
 	const onSubmit = data => {
 		props.sendMessage(data.message);
-		resetField('message');
+		reset();
 	};
 
 	return (
@@ -25,18 +21,16 @@ const DialogForm = props => {
 					type='text'
 					placeholder='Print Your Text'
 				/>
-				<div className={`${s.error} ${errors.login && s.show}`}>
-					<span>
-						{errors.message?.type === 'required' &&
-							'Login field is required'}
-						{errors.message?.type === 'maxLength' &&
-							'Password max length is 50'}
-					</span>
-				</div>
 			</div>
-			<button className={s.btn} type='submit'>
-				Send
-			</button>
+			{isDirty ? (
+				<button className={s.btn} type='submit'>
+					Send
+				</button>
+			) : (
+				<button className={s.btn} type='submit' disabled>
+					Send
+				</button>
+			)}
 		</form>
 	);
 };

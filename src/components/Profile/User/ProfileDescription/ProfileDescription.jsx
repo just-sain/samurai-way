@@ -24,14 +24,12 @@ const ProfileDescription = props => {
 				{Object.keys(props.contacts)
 					.filter(key => props.contacts[key])
 					.map(key => {
-						return (
-							<ProfileContact key={key} title={key === 'mainLink' ? 'main' : key} link={props.contacts[key]} />
-						);
+						return <ProfileContact key={key} title={key === 'mainLink' ? 'main' : key} link={props.contacts[key]} />;
 					})}
 			</div>
 
 			{props.owner && (
-				<NavLink title='edit' className={s.editMode} to='/settings/profile'>
+				<NavLink title='edit' className={s.editMode} to='/settings'>
 					<img src={editSVG} alt='edit' />
 				</NavLink>
 			)}

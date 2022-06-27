@@ -9,7 +9,8 @@ import Login from './Login';
 const mapState = state => ({
 	isAuth: state.auth.isAuth,
 	userID: state.auth.data.id,
-	messages: state.errors.loginMessages,
+	messages: state.errors.loginErrors.messages,
+	captchaURL: state.errors.loginErrors.captchaURL,
 });
 
 // second class container component
@@ -19,7 +20,7 @@ class LoginContainer extends Component {
 			return <Navigate to={`/profile/${this.props.userID}`} />;
 		}
 
-		return <Login messages={this.props.messages} login={this.props.login} />;
+		return <Login captchaURL={this.props.captchaURL} messages={this.props.messages} login={this.props.login} />;
 	}
 }
 

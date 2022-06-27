@@ -53,8 +53,8 @@ class App extends React.Component {
 						<Route path='/dialogs/*' element={<DialogsContainer />} />
 						<Route path='/users' element={<UsersContainer />} />
 						<Route path='/music' element={<Music />} />
-						<Route path='/settings' element={<Settings />} />
 						<Route path='/settings/profile' element={<ProfileSettingsContainer />} />
+						<Route path='/settings' element={<Settings />} />
 						<Route path='*' element={<Error404 />} />
 					</Routes>
 				</main>

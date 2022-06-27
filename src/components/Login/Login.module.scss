@@ -9,62 +9,93 @@
 
 	accent-color: #f9bc60;
 
-	.form {
+	.wrapper {
 		width: 25vw;
-
-		display: flex;
-		flex-direction: column;
 		padding-bottom: 10rem;
 
-		&Block {
-			margin-top: 2rem;
-			position: relative;
+		h3 {
+			width: 100%;
+			padding: 0.5rem;
 
-			.showPassword {
-				margin-top: 0.5rem;
-				display: flex;
-				gap: 1rem;
-			}
+			border-bottom: 0.1rem solid #f9bc60;
+			border-radius: 1.5rem 25.5rem 85rem / 22.5rem 1.5rem 22.5rem 1.5rem;
 
-			input {
-				width: 100%;
-				padding: 0.6rem 1rem;
-				display: block;
-
-				background: none;
-				border: 0.1rem solid #fff;
-
-				color: #fff;
-				font-size: 1.5rem;
-			}
-
-			.checkbox {
-				width: auto;
-				display: inline-block;
-			}
-
-			&.blockBtns {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-			}
+			color: #f9bc60;
+			text-align: center;
+			font-family: 'Marck Script', cursive;
+			font-size: 2.5rem;
 		}
 
-		.button {
-			padding: 1rem 1.5rem;
-			cursor: pointer;
+		.form {
+			width: 25vw;
 
-			display: inline-block;
+			display: flex;
+			flex-direction: column;
 
-			background: #fff;
-			box-shadow: 0 0 0 transparent;
+			&Block {
+				margin-top: 2rem;
+				position: relative;
 
-			color: #000;
+				.showPassword {
+					margin-top: 0.5rem;
+					display: flex;
+					gap: 1rem;
+				}
 
-			transition: box-shadow 0.4s ease;
+				input {
+					width: 100%;
+					padding: 0.6rem 1rem;
+					display: block;
 
-			&:hover {
-				box-shadow: 0 0 5rem 1rem #fff;
+					background: none;
+					border: 0.1rem solid #fff;
+
+					color: #fff;
+					font-size: 1.5rem;
+				}
+
+				.checkbox {
+					width: auto;
+					display: inline-block;
+				}
+
+				&.blockBtns {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				&.blockCaptcha {
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-start;
+					align-items: center;
+
+					img {
+						width: 20rem;
+						height: auto;
+						margin: 1rem 0;
+					}
+				}
+			}
+
+			.button {
+				padding: 1rem 1.5rem;
+				cursor: pointer;
+
+				display: inline-block;
+
+				background: #fff;
+				box-shadow: 0 0 0 transparent;
+
+				color: #000;
+
+				transition: box-shadow 0.4s ease;
+
+				&:hover,
+				&:focus {
+					box-shadow: 0 0 5rem 1rem #fff;
+				}
 			}
 		}
 	}

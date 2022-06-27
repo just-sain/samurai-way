@@ -1,9 +1,15 @@
 const SET_LOGIN_ERRORS = 'errors/SET_LOGIN_ERRORS',
-	SET_PROFILE_SETTINGS_ERRORS = 'errors/SET_PROFILE_SETTINGS_ERRORS';
+	SET_LOGIN_CAPTCHA = 'errors/SET_LOGIN_CAPTCHA',
+	SET_PROFILE_ERRORS = 'errors/SET_PROFILE_ERRORS';
 
 const initialState = {
-	loginMessages: [],
-	profileMessages: [],
+	loginErrors: {
+		messages: [],
+		captchaURL: null,
+	},
+	profileErrors: {
+		messages: [],
+	},
 };
 
 const authReducer = (state = initialState, action) => {
@@ -11,13 +17,28 @@ const authReducer = (state = initialState, action) => {
 		case SET_LOGIN_ERRORS: {
 			return {
 				...state,
-				loginMessages: action.messages,
+				loginErrors: {
+					...state.loginErrors,
+					messages: action.messages,
+				},
 			};
 		}
-		case SET_PROFILE_SETTINGS_ERRORS: {
+		case SET_LOGIN_CAPTCHA: {
 			return {
 				...state,
-				profileMessages: action.messages,
+				loginErrors: {
+					...state.loginErrors,
+					captchaURL: action.captchaURL,
+				},
+			};
+		}
+		case SET_PROFILE_ERRORS: {
+			return {
+				...state,
+				profileErrors: {
+					...state.profileErrors,
+					messages: action.messages,
+				},
 			};
 		}
 		default: {
@@ -27,6 +48,7 @@ const authReducer = (state = initialState, action) => {
 };
 
 export const setLoginErrors = messages => ({ type: SET_LOGIN_ERRORS, messages });
-export const setProfileErrors = messages => ({ type: SET_PROFILE_SETTINGS_ERRORS, messages });
+export const setLoginCaptcha = captchaURL => ({ type: SET_LOGIN_CAPTCHA, captchaURL });
+export const setProfileErrors = messages => ({ type: SET_PROFILE_ERRORS, messages });
 
 export default authReducer;

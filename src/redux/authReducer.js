@@ -1,5 +1,5 @@
-import { authAPI } from '../api/api';
-import { setLoginErrors } from './errorsReducer';
+import { authAPI, security } from '../api/api';
+import { setLoginCaptcha, setLoginErrors } from './errorsReducer';
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 
@@ -39,15 +39,25 @@ export const authMe = () => async dispatch => {
 	}
 };
 
-export const login = (email, password, rememberMe) => async dispatch => {
-	const data = await authAPI.login(email, password, rememberMe);
+export const login =
+	(email, password, rememberMe, captcha = null) =>
+	async dispatch => {
+		const data = await authAPI.login(email, password, rememberMe, captcha);
 
-	if (data.resultCode === 0) {
-		dispatch(authMe());
-		dispatch(setLoginErrors(data.messages));
-	} else {
-		if (data.messages.length !== 0) dispatch(setLoginErrors(data.messages));
-	}
+		if (data.resultCode === 0) {
+			dispatch(authMe());
+			dispatch(setLoginErrors(data.messages));
+		} else if (data.resultCode === 10) {
+			dispatch(getCaptcha());
+			dispatch(setLoginErrors(data.messages));
+		} else {
+			if (data.messages.length !== 0) dispatch(setLoginErrors(data.messages));
+		}
+	};
+
+export const getCaptcha = () => async dispatch => {
+	const data = await security.getCaptcha();
+	dispatch(setLoginCaptcha(data.url));
 };
 
 export const logout = () => async dispatch => {
