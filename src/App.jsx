@@ -28,7 +28,7 @@ const DialogsContainer = withSuspense(lazy(() => import('./components/Dialogs/Di
 const UsersContainer = withSuspense(lazy(() => import('./components/Users/UsersContainer')));
 
 const mapState = state => ({
-	initialized: state.app.initialized,
+	initialized: state.app.initialized
 });
 
 class App extends React.Component {
