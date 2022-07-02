@@ -1,23 +1,27 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-import s from './Aside.module.scss';
+import s from './Aside.module.scss'
 
-const Aside = props => {
+type PropsType = {
+	userID: null | number
+}
+
+const Aside = (props: PropsType) => {
 	const links = [
 		{ path: props.userID ? `/profile/${props.userID}` : '/login', text: 'Profile' },
 		{ path: '/dialogs', text: 'Dialogs' },
 		{ path: '/', text: 'News' },
 		{ path: '/users', text: 'Find Users' },
 		{ path: '/music', text: 'Music' },
-		{ path: '/settings', text: 'Settings' },
-	];
+		{ path: '/settings', text: 'Settings' }
+	]
 
 	const renderLinks = links.map((link, index) => (
 		<NavLink key={index} to={link.path} className={navData => (navData.isActive ? `${s.link} ${s._active}` : s.link)}>
 			{link.text}
 		</NavLink>
-	));
+	))
 
 	return (
 		<aside className={s.aside}>
@@ -26,7 +30,7 @@ const Aside = props => {
 				{renderLinks}
 			</nav>
 		</aside>
-	);
-};
+	)
+}
 
-export default Aside;
+export default Aside

@@ -10,7 +10,7 @@ const initialState = {
 		email: null as null | string
 	},
 	profile: null as any,
-	isAuth: false
+	isAuth: false as boolean
 }
 
 export type initialStateType = typeof initialState

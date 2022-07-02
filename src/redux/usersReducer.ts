@@ -1,6 +1,6 @@
 import { usersAPI } from '../api/api'
 // types
-import { photosType, userType } from '../types/types'
+import { userType } from '../types/types'
 
 const TOGGLE_FOLLOW = 'users/TOGGLE_FOLLOW',
 	SET_USERS = 'users/SET_USERS-USERS',
@@ -104,8 +104,8 @@ export const setTotalUsersCount = (usersCount: number): setTotalUsersCountType =
 
 type toggleFollowingInProgressType = {
 	type: typeof TOGGLE_IS_FOLLOWING_IN_PROGRESS
-	userID: number
 	isFetching: boolean
+	userID: number
 }
 export const toggleFollowingInProgress = (isFetching: boolean, userID: number): toggleFollowingInProgressType => ({
 	type: TOGGLE_IS_FOLLOWING_IN_PROGRESS,

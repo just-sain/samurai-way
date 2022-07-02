@@ -30,3 +30,9 @@ export type userType = {
 	status: null
 	followed: boolean
 }
+
+export type dataType = {
+	id: null | number
+	login: null | string
+	email: null | string
+}

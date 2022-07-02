@@ -1,10 +1,19 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+// types
+import { dataType, profileType } from '../../types/types'
 
-import logo from '../../assets/img/logo.svg';
-import s from './Header.module.scss';
+import logo from '../../assets/img/logo.svg'
+import s from './Header.module.scss'
 
-const Header = props => {
+type PropType = {
+	data: dataType
+	profile: profileType
+	isAuth: boolean
+	logout: () => void
+}
+
+const Header = (props: PropType) => {
 	const loginBlock = () => {
 		if (props.isAuth) {
 			return (
@@ -16,7 +25,7 @@ const Header = props => {
 						sign out
 					</NavLink>
 				</div>
-			);
+			)
 		} else {
 			return (
 				<div className={s.loginBlock}>
@@ -24,9 +33,9 @@ const Header = props => {
 						sign up
 					</NavLink>
 				</div>
-			);
+			)
 		}
-	};
+	}
 
 	return (
 		<header className={s.header}>
@@ -36,7 +45,7 @@ const Header = props => {
 			</NavLink>
 			{loginBlock()}
 		</header>
-	);
-};
+	)
+}
 
-export default Header;
+export default Header

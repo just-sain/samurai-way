@@ -1,13 +1,13 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react'
+import { useForm } from 'react-hook-form'
 
-import s from './Login.module.scss';
-import errorStyle from '../common/styles/errors.module.scss';
+import s from './Login.module.scss'
+import errorStyle from '../common/styles/errors.module.scss'
 
 const Login = props => {
 	const onSubmit = data => {
-		props.login(data.email, data.password, data.rememberMe, data.captcha);
-	};
+		props.login(data.email, data.password, data.rememberMe, data.captcha)
+	}
 
 	return (
 		<section className={s.loginPage}>
@@ -19,23 +19,26 @@ const Login = props => {
 					isFormWrong={props.isFormWrong}
 					messages={props.messages}
 				/>
+				<p className={s.register}>
+					don't have an account? <a href='https://social-network.samuraijs.com/login'>register</a>
+				</p>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
 const LoginForm = props => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
-	} = useForm({ mode: 'onBlur' });
+		formState: { errors }
+	} = useForm({ mode: 'onBlur' })
 
 	const disableEnterKey = e => {
 		if (e.keyCode == '13') {
-			e.preventDefault();
+			e.preventDefault()
 		}
-	};
+	}
 
 	return (
 		<form className={s.form} onSubmit={handleSubmit(props.onSubmit)} onKeyDown={disableEnterKey}>
@@ -45,10 +48,10 @@ const LoginForm = props => {
 						required: 'Email field is required!',
 						pattern: {
 							value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-							message: 'Email is wrong!',
-						},
+							message: 'Email is wrong!'
+						}
 					})}
-					autoComplete='off'
+					// autoComplete='off' // off suggestions
 					className={s.formPasswd}
 					type='text'
 					placeholder='Email'
@@ -63,9 +66,8 @@ const LoginForm = props => {
 					{...register('password', {
 						required: 'Password field is required!',
 						minLength: { value: 4, message: `Password max length is 4` },
-						maxLength: { value: 20, message: `Password max length is 20` },
+						maxLength: { value: 20, message: `Password max length is 20` }
 					})}
-					autoComplete='off'
 					className={s.formPasswd}
 					type='password'
 					placeholder='Password'
@@ -123,7 +125,7 @@ const LoginForm = props => {
 				</button>
 			</div>
 		</form>
-	);
-};
+	)
+}
 
-export default Login;
+export default Login
