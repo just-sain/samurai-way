@@ -1,7 +1,7 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-import s from './Settings.module.scss';
+import s from './Settings.module.scss'
 
 const Settings = () => {
 	return (
@@ -16,7 +16,7 @@ const Settings = () => {
 				</NavLink>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export default Settings;
+export default Settings

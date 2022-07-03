@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import editSVG from '../../../../assets/img/pencil.png';
-import haveNotImage from '../../../../assets/img/blank-profile-picture.webp';
+import editSVG from '../../../../assets/img/pencil.png'
+import haveNotImage from '../../../../assets/img/blank-profile-picture.webp'
 
-import s from './ProfileAvatar.module.scss';
+import { TPhotos } from '../../../../types/types'
+import s from './ProfileAvatar.module.scss'
 
-const ProfileAvatar = props => {
-	const [editAvatar, setEditAvatar] = useState(false);
-	const [photo, setPhoto] = useState();
-	const [isError, setIsError] = useState(false);
+type TProps = {
+	profilePhotos: TPhotos
+	owner: boolean
+	savePhoto: (photo: File) => void
+}
 
-	const onPhotoSelected = e => {
-		if (e.target.files.length) {
-			setPhoto(e.target.files[0]);
-			setIsError(false);
+const ProfileAvatar = (props: TProps) => {
+	const [editAvatar, setEditAvatar] = useState(false)
+	const [photo, setPhoto] = useState<File>()
+	const [isError, setIsError] = useState(false)
+
+	const onPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = e.currentTarget.files
+		if (files?.length) {
+			setPhoto(files[0])
+			setIsError(false)
 		} else {
-			setIsError(true);
+			setIsError(true)
 		}
-	};
+	}
 
 	const onSavePhoto = () => {
 		if (photo) {
-			props.savePhoto(photo);
-			setEditAvatar(false);
+			props.savePhoto(photo)
+			setEditAvatar(false)
 		} else {
-			setIsError(true);
+			setIsError(true)
 		}
-	};
+	}
 
 	return (
 		<>
@@ -39,9 +47,7 @@ const ProfileAvatar = props => {
 							: haveNotImage
 					}
 				/>
-				{props.owner && (
-					<img title='edit' className={s.edit} src={editSVG} alt='edit' onClick={() => setEditAvatar(true)} />
-				)}
+				{props.owner && <img title='edit' className={s.edit} src={editSVG} alt='edit' onClick={() => setEditAvatar(true)} />}
 			</div>
 			{editAvatar && (
 				<div className={s.ModalWindow}>
@@ -66,7 +72,7 @@ const ProfileAvatar = props => {
 						<button
 							className={`${s.btn} ${s.cancel}`}
 							onClick={() => {
-								setEditAvatar(false);
+								setEditAvatar(false)
 							}}>
 							Cancel
 						</button>
@@ -77,7 +83,7 @@ const ProfileAvatar = props => {
 				</div>
 			)}
 		</>
-	);
-};
+	)
+}
 
-export default ProfileAvatar;
+export default ProfileAvatar

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 // types
 import { AppStateType } from '../../redux/redux-store'
-import { userType } from '../../types/types'
+import { TUser } from '../../types/types'
 // smt
 import { requestUsers, changeFollow, toggleFollowingInProgress, setCurrentPage, resetPage } from '../../redux/usersReducer'
 import {
@@ -20,7 +20,7 @@ import Users from './Users'
 type OwnPropsType = {}
 
 type MapStatePropsType = {
-	users: Array<userType>
+	users: Array<TUser>
 	totalUsersCount: number
 	currentPage: number
 	pageSize: number

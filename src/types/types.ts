@@ -1,9 +1,10 @@
-export type photosType = {
+// profile
+export type TPhotos = {
 	small: null | string
 	large: null | string
 }
 
-export type contactsType = {
+export type TContacts = {
 	github: string
 	vk: string
 	facebook: string
@@ -12,27 +13,54 @@ export type contactsType = {
 	website: string
 	youtube: string
 	mainLink: string
+	[key: string]: string
 }
 
-export type profileType = {
-	userId: number
-	fullName: string
-	lookingForAJob: boolean
-	lookingForAJobDescription: string
-	contacts: contactsType
-	photos: photosType
+export type TProfile = {
+	userId: null | number
+	aboutMe: string
+	fullName: null | string
+	lookingForAJob: null | boolean
+	lookingForAJobDescription: null | string
+	contacts: TContacts
+	photos: TPhotos
 }
 
-export type userType = {
+export type TUpdateProfile = {
+	aboutMe: string
+	fullName: null | string
+	lookingForAJob: null | boolean
+	lookingForAJobDescription: null | string
+	contacts: TContacts
+}
+
+export type TPost = {
+	id: number
+	text: string
+	likes: number
+}
+
+// users
+export type TUser = {
 	id: number
 	name: string
-	photos: photosType
+	photos: TPhotos
 	status: null
 	followed: boolean
 }
 
-export type dataType = {
+export type TData = {
 	id: null | number
 	login: null | string
 	email: null | string
+}
+
+// dialogs
+export type TDialogs = {
+	id: number
+	name: string
+}
+export type TMessages = {
+	id: number
+	text: string
 }

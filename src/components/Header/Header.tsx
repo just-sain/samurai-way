@@ -1,14 +1,14 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 // types
-import { dataType, profileType } from '../../types/types'
+import { TData, TProfile } from '../../types/types'
 
 import logo from '../../assets/img/logo.svg'
 import s from './Header.module.scss'
 
 type PropType = {
-	data: dataType
-	profile: profileType
+	data: TData
+	profile: TProfile
 	isAuth: boolean
 	logout: () => void
 }

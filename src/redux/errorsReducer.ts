@@ -1,6 +1,4 @@
-const SET_LOGIN_ERRORS = 'errors/SET_LOGIN_ERRORS',
-	SET_LOGIN_CAPTCHA = 'errors/SET_LOGIN_CAPTCHA',
-	SET_PROFILE_ERRORS = 'errors/SET_PROFILE_ERRORS'
+import { InferActionType } from './redux-store'
 
 const initialState = {
 	loginErrors: {
@@ -13,9 +11,9 @@ const initialState = {
 }
 export type initialStateType = typeof initialState
 
-const authReducer = (state: initialStateType = initialState, action: any): initialStateType => {
+const authReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
 	switch (action.type) {
-		case SET_LOGIN_ERRORS: {
+		case 'errors/SET_LOGIN_ERRORS': {
 			return {
 				...state,
 				loginErrors: {
@@ -24,7 +22,7 @@ const authReducer = (state: initialStateType = initialState, action: any): initi
 				}
 			}
 		}
-		case SET_LOGIN_CAPTCHA: {
+		case 'errors/SET_LOGIN_CAPTCHA': {
 			return {
 				...state,
 				loginErrors: {
@@ -33,7 +31,7 @@ const authReducer = (state: initialStateType = initialState, action: any): initi
 				}
 			}
 		}
-		case SET_PROFILE_ERRORS: {
+		case 'errors/SET_PROFILE_ERRORS': {
 			return {
 				...state,
 				profileErrors: {
@@ -49,20 +47,12 @@ const authReducer = (state: initialStateType = initialState, action: any): initi
 }
 
 // action creators
-type setLoginErrorsType = {
-	type: typeof SET_LOGIN_ERRORS
-	messages: Array<string>
+type ActionType = InferActionType<typeof errorsActions>
+
+export const errorsActions = {
+	setLoginErrors: (messages: Array<string>) => ({ type: 'errors/SET_LOGIN_ERRORS', messages } as const),
+	setLoginCaptcha: (captchaURL: string) => ({ type: 'errors/SET_LOGIN_CAPTCHA', captchaURL } as const),
+	setProfileErrors: (messages: Array<string>) => ({ type: 'errors/SET_PROFILE_ERRORS', messages } as const)
 }
-export const setLoginErrors = (messages: Array<string>): setLoginErrorsType => ({ type: SET_LOGIN_ERRORS, messages })
-type setLoginCaptchaType = {
-	type: typeof SET_LOGIN_CAPTCHA
-	captchaURL: null | string
-}
-export const setLoginCaptcha = (captchaURL: string): setLoginCaptchaType => ({ type: SET_LOGIN_CAPTCHA, captchaURL })
-type setProfileErrorsType = {
-	type: typeof SET_PROFILE_ERRORS
-	messages: Array<string>
-}
-export const setProfileErrors = (messages: Array<string>): setProfileErrorsType => ({ type: SET_PROFILE_ERRORS, messages })
 
 export default authReducer

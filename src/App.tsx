@@ -1,6 +1,6 @@
 import React, { lazy } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { connect, MapDispatchToProps, Provider } from 'react-redux'
+import { Routes, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 import store, { AppStateType } from './redux/redux-store'
 // action creators from reducers
 import { initializeApp } from './redux/appReducer'
@@ -21,19 +21,10 @@ const ProfileContainer = withSuspense(lazy(() => import('./components/Profile/Pr
 const News = withSuspense(lazy(() => import('./components/News/News')))
 const Music = withSuspense(lazy(() => import('./components/Music/Music')))
 const Settings = withSuspense(lazy(() => import('./components/Settings/Settings')))
-const ProfileSettingsContainer = withSuspense(
-	lazy(() => import('./components/Settings/ProfileSettings/ProfileSettingsContainer'))
-)
+const ProfileSettingsContainer = withSuspense(lazy(() => import('./components/Settings/ProfileSettings/ProfileSettingsContainer')))
 const DialogsContainer = withSuspense(lazy(() => import('./components/Dialogs/DialogsContainer')))
 const UsersContainer = withSuspense(lazy(() => import('./components/Users/UsersContainer')))
 
-type MapStatePropsType = {
-	initialized: boolean
-}
-type MapDispatchPropsType = {
-	initializeApp: () => void
-}
-type OwnPropsType = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 class App extends React.Component<PropsType> {
@@ -68,20 +59,18 @@ class App extends React.Component<PropsType> {
 	}
 }
 
-const mapState = (state: any) => ({
+type MapStatePropsType = {
+	initialized: boolean
+}
+type MapDispatchPropsType = {
+	initializeApp: () => void
+}
+type OwnPropsType = {}
+
+const mapState = (state: AppStateType) => ({
 	initialized: state.app.initialized
 })
 
-const AppContainer = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapState, { initializeApp })(
-	App
-)
-
-const AppWithProvider = () => (
-	<BrowserRouter>
-		<Provider store={store}>
-			<AppContainer />
-		</Provider>
-	</BrowserRouter>
-)
-
-export default AppWithProvider
+export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapState, {
+	initializeApp
+})(App)

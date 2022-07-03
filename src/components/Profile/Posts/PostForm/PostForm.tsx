@@ -1,20 +1,27 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
-import s from './PostForm.module.scss';
+import s from './PostForm.module.scss'
 
-const PostForm = props => {
+type TFormValues = {
+	postText: string
+}
+type TProps = {
+	addPost: (text: string) => void
+}
+
+const PostForm = (props: any) => {
 	const {
 		register,
 		handleSubmit,
-		resetField,
-		formState: { errors },
-	} = useForm({ mode: 'onBlur' });
+		reset,
+		formState: { errors }
+	} = useForm<TFormValues>({ mode: 'onBlur' })
 
-	const onSubmit = data => {
-		props.addPost(data.postText);
-		resetField('postText');
-	};
+	const onSubmit: SubmitHandler<TFormValues> = data => {
+		props.addPost(data.postText)
+		reset()
+	}
 
 	return (
 		<form className={s.form} onSubmit={handleSubmit(onSubmit)}>
@@ -35,7 +42,7 @@ const PostForm = props => {
 				publish
 			</button>
 		</form>
-	);
-};
+	)
+}
 
-export default PostForm;
+export default PostForm

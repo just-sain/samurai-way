@@ -1,6 +1,6 @@
 import React from 'react'
 // types
-import { userType } from '../../types/types'
+import { TUser } from '../../types/types'
 // components
 import User from './User/User'
 import Pagination from '../common/Pagination/Pagination'
@@ -11,7 +11,7 @@ type PropsType = {
 	changeFollow: (doFollow: boolean, userID: number) => void
 	toggleFollowingInProgress: (isFetching: boolean, userID: number) => void
 	onChangePage: (page: number) => void
-	users: Array<userType>
+	users: Array<TUser>
 	totalUsersCount: number
 	currentPage: number
 	pageSize: number

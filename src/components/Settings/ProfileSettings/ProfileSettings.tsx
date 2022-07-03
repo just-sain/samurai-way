@@ -1,61 +1,96 @@
-import React, { useMemo, useEffect } from 'react';
-import { useForm, useFormState } from 'react-hook-form';
+import React, { useMemo, useEffect } from 'react'
+import { SubmitHandler, useForm, useFormState } from 'react-hook-form'
 
-import s from './ProfileSettings.module.scss';
-import errorStyle from '../../common/styles/errors.module.scss';
+import s from './ProfileSettings.module.scss'
+import errorStyle from '../../common/styles/errors.module.scss'
+import { TContacts, TProfile, TUpdateProfile } from '../../../types/types'
 
-const ProfileSettings = props => {
-	const onSubmit = data => {
-		props.saveProfile({
-			fullName: data.fullName,
-			aboutMe: data.aboutMe,
-			lookingForAJob: data.isLookingForAJob,
-			lookingForAJobDescription: data.skills,
-			contacts: { ...props.profile.contacts },
-		});
-		props.updateStatus(data.status);
-	};
+type TProps = {
+	id: number
+	profile: TProfile
+	status: string
+	messages: Array<string>
+	savePhoto: (photo: File) => void
+	updateStatus: (status: string) => void
+	saveProfile: (profile: TUpdateProfile) => void
+}
 
+const ProfileSettings = (props: TProps) => {
 	return (
 		<section className={s.section}>
 			<h1 className={s.title}>Profile Settings</h1>
-			<Form onSubmit={onSubmit} id={props.id} profile={props.profile} status={props.status} messages={props.messages} />
+			<Form
+				id={props.id}
+				profile={props.profile}
+				status={props.status}
+				messages={props.messages}
+				updateStatus={props.updateStatus}
+				saveProfile={props.saveProfile}
+			/>
 		</section>
-	);
-};
+	)
+}
 
-const Form = props => {
+type TFormValues = {
+	fullName: string
+	aboutMe: string
+	isLookingForAJob: boolean
+	skills: string
+	contacts: TContacts
+	status: string
+}
+type TFormProps = {
+	id: number
+	profile: TProfile
+	status: string
+	messages: Array<string>
+	updateStatus: (status: string) => void
+	saveProfile: (profileData: TUpdateProfile) => void
+}
+
+const Form = (props: TFormProps) => {
 	const defaultValues = {
 		fullName: !props.profile.fullName ? '' : props.profile.fullName,
 		aboutMe: !props.profile.aboutMe ? '' : props.profile.aboutMe,
 		status: !props.status ? '' : props.status,
 		isLookingForAJob: !props.profile.lookingForAJob ? false : props.profile.lookingForAJob,
 		skills: !props.profile.lookingForAJobDescription ? '' : props.profile.lookingForAJobDescription,
-		contacts: { ...props.profile.contacts },
-	};
+		contacts: { ...props.profile.contacts }
+	}
 	const {
 		handleSubmit,
 		register,
 		control,
 		reset,
 		getValues,
-		formState: { errors },
-	} = useForm({
+		formState: { errors }
+	} = useForm<TFormValues>({
 		mode: 'onBlur',
-		defaultValues: useMemo(() => defaultValues, [props.profile, props.status]),
-	});
-	const { isDirty } = useFormState({ control });
+		defaultValues: useMemo(() => defaultValues, [props.profile, props.status])
+	})
+	const { isDirty } = useFormState({ control })
+
+	const onSubmit: SubmitHandler<TFormValues> = data => {
+		props.saveProfile({
+			fullName: data.fullName,
+			aboutMe: data.aboutMe,
+			lookingForAJob: data.isLookingForAJob,
+			lookingForAJobDescription: data.skills,
+			contacts: { ...props.profile.contacts }
+		})
+		props.updateStatus(data.status)
+	}
 
 	useEffect(() => {
-		reset(getValues());
-	}, [props.profile, props.status]);
+		reset(getValues())
+	}, [props.profile, props.status])
 
-	const capitalizeLetter = string => {
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	};
+	const capitalizeLetter = (string: string) => {
+		return string.charAt(0).toUpperCase() + string.slice(1)
+	}
 
 	return (
-		<form className={`${s.form}`} onSubmit={handleSubmit(props.onSubmit)}>
+		<form className={`${s.form}`} onSubmit={handleSubmit(onSubmit)}>
 			{/* immutable block with id  */}
 			<div className={s.formBlock}>
 				id: <span>{props.profile.userId}</span>
@@ -68,8 +103,8 @@ const Form = props => {
 						required: 'full name field is required!',
 						maxLength: {
 							value: 50,
-							message: 'job description field max length is 50',
-						},
+							message: 'job description field max length is 50'
+						}
 					})}
 					type='text'
 					placeholder='Full name'
@@ -85,8 +120,8 @@ const Form = props => {
 					{...register('aboutMe', {
 						maxLength: {
 							value: 1000,
-							message: 'job description field max length is 1000',
-						},
+							message: 'job description field max length is 1000'
+						}
 					})}
 					type='text'
 					placeholder='About me'
@@ -102,8 +137,8 @@ const Form = props => {
 					{...register('status', {
 						maxLength: {
 							value: 300,
-							message: 'job description field max length is 300',
-						},
+							message: 'job description field max length is 300'
+						}
 					})}
 					type='text'
 					placeholder='Status'
@@ -133,8 +168,8 @@ const Form = props => {
 						{...register('skills', {
 							maxLength: {
 								value: 300,
-								message: 'job description field max length is 300',
-							},
+								message: 'job description field max length is 300'
+							}
 						})}
 						type='text'
 						placeholder='Your skills'
@@ -182,7 +217,7 @@ const Form = props => {
 				)}
 			</div>
 		</form>
-	);
-};
+	)
+}
 
-export default ProfileSettings;
+export default ProfileSettings

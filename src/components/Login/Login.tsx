@@ -1,24 +1,21 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 import s from './Login.module.scss'
 import errorStyle from '../common/styles/errors.module.scss'
 
-const Login = props => {
-	const onSubmit = data => {
-		props.login(data.email, data.password, data.rememberMe, data.captcha)
-	}
+type PropsType = {
+	messages: Array<string>
+	captchaURL: null | string
+	login: (email: string, password: string, rememberMe: boolean, captcha?: null | string) => void
+}
 
+const Login = (props: PropsType) => {
 	return (
 		<section className={s.loginPage}>
 			<div className={s.wrapper}>
 				<h3>Login</h3>
-				<LoginForm
-					onSubmit={onSubmit}
-					captchaURL={props.captchaURL}
-					isFormWrong={props.isFormWrong}
-					messages={props.messages}
-				/>
+				<LoginForm login={props.login} captchaURL={props.captchaURL} messages={props.messages} />
 				<p className={s.register}>
 					don't have an account? <a href='https://social-network.samuraijs.com/login'>register</a>
 				</p>
@@ -27,21 +24,37 @@ const Login = props => {
 	)
 }
 
-const LoginForm = props => {
+type FormValues = {
+	email: string
+	password: string
+	rememberMe: boolean
+	captcha?: string
+}
+type FormPropsType = {
+	captchaURL: null | string
+	messages: Array<string>
+	login: (email: string, password: string, rememberMe: boolean, captcha?: null | string) => void
+}
+
+const LoginForm = (props: FormPropsType) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
-	} = useForm({ mode: 'onBlur' })
+	} = useForm<FormValues>({ mode: 'onBlur' })
 
-	const disableEnterKey = e => {
-		if (e.keyCode == '13') {
+	const onSubmit: SubmitHandler<FormValues> = data => {
+		props.login(data.email, data.password, data.rememberMe, data.captcha)
+	}
+
+	const disableEnterKey = (e: React.KeyboardEvent<HTMLElement>) => {
+		if (e.key == 'Enter') {
 			e.preventDefault()
 		}
 	}
 
 	return (
-		<form className={s.form} onSubmit={handleSubmit(props.onSubmit)} onKeyDown={disableEnterKey}>
+		<form className={s.form} onSubmit={handleSubmit(onSubmit)} onKeyDown={disableEnterKey}>
 			<div className={s.formBlock}>
 				<input
 					{...register('email', {
@@ -55,7 +68,6 @@ const LoginForm = props => {
 					className={s.formPasswd}
 					type='text'
 					placeholder='Email'
-					tabIndex='1'
 				/>
 				<div className={`${errorStyle.error} ${errors.email && errorStyle.show}`}>
 					<span>{errors.email && errors.email.message}</span>
@@ -71,7 +83,6 @@ const LoginForm = props => {
 					className={s.formPasswd}
 					type='password'
 					placeholder='Password'
-					tabIndex='2'
 				/>
 				<div className={`${errorStyle.error} ${errors.password && errorStyle.show}`}>
 					<span>{errors.password && errors.password.message}</span>
@@ -85,7 +96,6 @@ const LoginForm = props => {
 						name='rememberMe'
 						type='checkbox'
 						style={{ marginRight: '1rem' }}
-						tabIndex='3'
 					/>
 					Remember Me
 				</label>
@@ -110,7 +120,6 @@ const LoginForm = props => {
 							className={s.checkbox}
 							name='captcha'
 							type='text'
-							tabIndex='6'
 						/>
 						<div className={`${errorStyle.error} ${errors.captcha && errorStyle.show}`}>
 							<span>{errors.captcha && errors.captcha.message}</span>
@@ -120,7 +129,7 @@ const LoginForm = props => {
 			)}
 
 			<div className={`${s.formBlock} ${s.blockBtns}`}>
-				<button className={s.button} type='submit' tabIndex='4'>
+				<button className={s.button} type='submit'>
 					Login
 				</button>
 			</div>

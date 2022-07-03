@@ -1,15 +1,16 @@
+import { ThunkAction } from 'redux-thunk'
 import { authMe } from './authReducer'
-
-const INITIALIZED_SUCCESS = 'app/INITIALIZED_SUCCESS'
+// types
+import { AppStateType, InferActionType } from './redux-store'
 
 const initialState = {
 	initialized: false
 }
 export type initialStateType = typeof initialState
 
-const appReducer = (state: initialStateType = initialState, action: any): initialStateType => {
+const appReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
 	switch (action.type) {
-		case INITIALIZED_SUCCESS: {
+		case 'app/INITIALIZED_SUCCESS': {
 			return {
 				...state,
 				initialized: true
@@ -22,17 +23,20 @@ const appReducer = (state: initialStateType = initialState, action: any): initia
 }
 
 // action creators
-type initializedSuccessType = {
-	type: typeof INITIALIZED_SUCCESS
+type ActionType = InferActionType<typeof actions>
+
+export const actions = {
+	initializedSuccess: () => ({ type: 'app/INITIALIZED_SUCCESS' } as const)
 }
-export const initializedSuccess = (): initializedSuccessType => ({ type: INITIALIZED_SUCCESS })
 
 // thunks creators
-export const initializeApp = () => (dispatch: any) => {
+type ThunkType = ThunkAction<void, AppStateType, unknown, ActionType>
+
+export const initializeApp = (): ThunkType => dispatch => {
 	const authMePromise = dispatch(authMe())
 
 	Promise.all([authMePromise]).then(() => {
-		dispatch(initializedSuccess())
+		dispatch(actions.initializedSuccess())
 	})
 }
 

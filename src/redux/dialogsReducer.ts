@@ -1,13 +1,6 @@
-const SEND_MESSAGE = 'dialog/SEND-MESSAGE'
+import { TDialogs, TMessages } from '../types/types'
 
-type dialogsType = {
-	id: number
-	name: string
-}
-type messagesType = {
-	id: number
-	text: string
-}
+const SEND_MESSAGE = 'dialog/SEND-MESSAGE'
 
 const initialState = {
 	dialogs: [
@@ -21,17 +14,17 @@ const initialState = {
 		{ id: 8, name: 'aisere' },
 		{ id: 9, name: 'andrei' },
 		{ id: 10, name: 'katerina' }
-	] as Array<dialogsType>,
+	] as Array<TDialogs>,
 
 	messages: [
 		{ id: 1, text: 'hihi' },
 		{ id: 2, text: 'how are you' },
 		{ id: 3, text: 'were are you' }
-	] as Array<messagesType>
+	] as Array<TMessages>
 }
 export type initialStateType = typeof initialState
 
-const dialogsReducer = (state: initialStateType = initialState, action: any): initialStateType => {
+const dialogsReducer = (state: initialStateType = initialState, action: ActionType): initialStateType => {
 	switch (action.type) {
 		case SEND_MESSAGE: {
 			const newMessage = {
@@ -48,6 +41,9 @@ const dialogsReducer = (state: initialStateType = initialState, action: any): in
 		}
 	}
 }
+
+// action creators
+type ActionType = sendMessageType
 
 type sendMessageType = {
 	type: typeof SEND_MESSAGE

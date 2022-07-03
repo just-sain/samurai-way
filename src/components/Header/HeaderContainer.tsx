@@ -6,12 +6,12 @@ import { AppStateType } from '../../redux/redux-store'
 import { logout } from '../../redux/authReducer'
 import Header from './Header'
 import { getAuth, getProfile, getData } from '../../selectors/auth-selector'
-import { dataType, profileType } from '../../types/types'
+import { TData, TProfile } from '../../types/types'
 
 type OwnPropsType = {}
 type MapStatePropsType = {
-	data: dataType
-	profile: profileType
+	data: TData
+	profile: TProfile
 	isAuth: boolean
 }
 type MapDispatchPropsType = {

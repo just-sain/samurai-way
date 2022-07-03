@@ -1,6 +1,8 @@
-import { usersAPI } from '../api/api'
+import { ThunkAction } from 'redux-thunk'
+import usersAPI from '../api/users-api' // api
 // types
-import { userType } from '../types/types'
+import { TUser } from '../types/types'
+import { AppStateType } from './redux-store'
 
 const TOGGLE_FOLLOW = 'users/TOGGLE_FOLLOW',
 	SET_USERS = 'users/SET_USERS-USERS',
@@ -11,7 +13,7 @@ const TOGGLE_FOLLOW = 'users/TOGGLE_FOLLOW',
 	RESET_PAGE = 'users/RESET_PAGE-PAGE'
 
 const initialState = {
-	users: [] as Array<userType>,
+	users: [] as Array<TUser>,
 	pageSize: 12 as number,
 	totalUsersCount: 0 as number,
 	currentPage: 1 as number,
@@ -78,6 +80,15 @@ const usersReducer = (state: initialStateType = initialState, action: any): init
 }
 
 // action creators
+type ActionType =
+	| toggleFollowType
+	| setUsersType
+	| setCurrentPageType
+	| setTotalUsersCountType
+	| toggleFollowingInProgressType
+	| setFetchingType
+	| resetPageType
+
 type toggleFollowType = {
 	type: typeof TOGGLE_FOLLOW
 	userID: number
@@ -86,9 +97,9 @@ export const toggleFollow = (userID: number): toggleFollowType => ({ type: TOGGL
 
 type setUsersType = {
 	type: typeof SET_USERS
-	users: Array<userType>
+	users: Array<TUser>
 }
-export const setUsers = (users: Array<userType>): setUsersType => ({ type: SET_USERS, users })
+export const setUsers = (users: Array<TUser>): setUsersType => ({ type: SET_USERS, users })
 
 type setCurrentPageType = {
 	type: typeof SET_CURRENT_PAGE
@@ -125,9 +136,11 @@ type resetPageType = {
 export const resetPage = (): resetPageType => ({ type: RESET_PAGE })
 
 // thunk (we use closure)
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
+
 export const requestUsers =
-	(currentPage: number, pageSize: number, doSetTotalUsersCount: boolean = false) =>
-	async (dispatch: any) => {
+	(currentPage: number, pageSize: number, doSetTotalUsersCount: boolean = false): ThunkType =>
+	async dispatch => {
 		dispatch(setFetching(true))
 
 		const data = await usersAPI.getUsers(currentPage, pageSize)
@@ -137,16 +150,18 @@ export const requestUsers =
 		dispatch(setFetching(false))
 	}
 
-export const changeFollow = (doFollow: boolean, userID: number) => async (dispatch: any) => {
-	dispatch(toggleFollowingInProgress(true, userID))
+export const changeFollow =
+	(doFollow: boolean, userID: number): ThunkType =>
+	async dispatch => {
+		dispatch(toggleFollowingInProgress(true, userID))
 
-	// defined which method we need to use
-	const apiMethod = doFollow ? await usersAPI.followUser(userID) : await usersAPI.unfollowUser(userID)
+		// defined which method we need to use
+		const apiMethod = doFollow ? await usersAPI.followUser(userID) : await usersAPI.unfollowUser(userID)
 
-	if (apiMethod.resultCode === 0) {
-		dispatch(toggleFollow(userID))
+		if (apiMethod.resultCode === 0) {
+			dispatch(toggleFollow(userID))
+		}
+		dispatch(toggleFollowingInProgress(false, userID))
 	}
-	dispatch(toggleFollowingInProgress(false, userID))
-}
 
 export default usersReducer

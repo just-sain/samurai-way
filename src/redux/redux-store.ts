@@ -28,7 +28,8 @@ window.__store__ = store
 
 // const store = createStore(rootReducer, applyMiddleware(thunk))
 
+type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never
+export type InferActionType<T extends { [key: string]: (...args: any[]) => any }> = ReturnType<PropertiesTypes<T>>
 export type AppStateType = ReturnType<typeof store.getState>
-export type AppDispatchType = typeof store.dispatch
 
 export default store
