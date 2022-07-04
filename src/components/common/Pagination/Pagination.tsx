@@ -26,7 +26,7 @@ const Pagination = ({ onChangePage, totalItemsCount, pageSize, currentPage }: Pr
 				title='page' // for unit test
 				className={`navItem ${currentPage === page && 'selectedPage'}`}
 				onClick={() => {
-					onChangePage(page)
+					if (currentPage !== page) onChangePage(page)
 				}}>
 				{text}
 			</span>

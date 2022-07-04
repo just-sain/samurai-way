@@ -9,8 +9,10 @@ type TGetUsers = {
 }
 
 const usersAPI = {
-	getUsers: async (currentPage: number = 1, pageSize: number = 10) => {
-		const response = await instance.get<TGetUsers>(`users?page=${currentPage}&count=${pageSize}`)
+	getUsers: async (currentPage: number = 1, pageSize: number = 10, term: string, friend: null | boolean) => {
+		const response = await instance.get<TGetUsers>(
+			`users?page=${currentPage}&count=${pageSize}&term=${term}${friend !== null ? `&friend=${friend}` : ``}`
+		)
 		return response.data
 	},
 	followUser: async (userID: number) => {

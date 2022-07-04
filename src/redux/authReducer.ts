@@ -1,9 +1,7 @@
-import { ThunkAction } from 'redux-thunk'
-// api
 import authAPI from '../api/auth-api'
 import securityAPI from '../api/security-api'
 
-import { AppStateType, InferActionType } from './redux-store' // types
+import { InferActionType, TBaseThunk } from './redux-store' // types
 import { errorsActions } from './errorsReducer' // action creators
 
 const initialState = {
@@ -43,7 +41,7 @@ export const actions = {
 const allActions = { ...actions, ...errorsActions }
 
 // thunks, creators?!
-type ThunkType = ThunkAction<void, AppStateType, unknown, ActionType>
+type ThunkType = TBaseThunk<ActionType>
 
 export const authMe = (): ThunkType => async dispatch => {
 	const data = await authAPI.getAuthMe()

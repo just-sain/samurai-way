@@ -3,25 +3,29 @@ import React from 'react'
 import { TUser } from '../../types/types'
 // components
 import User from './User/User'
+import Search from './Search/Search'
 import Pagination from '../common/Pagination/Pagination'
 
 import s from './Users.module.scss'
 
 type PropsType = {
-	changeFollow: (doFollow: boolean, userID: number) => void
-	toggleFollowingInProgress: (isFetching: boolean, userID: number) => void
-	onChangePage: (page: number) => void
+	selfID: number
 	users: Array<TUser>
 	totalUsersCount: number
 	currentPage: number
 	pageSize: number
 	followingInProgress: Array<number>
+	changeFollow: (doFollow: boolean, userID: number) => void
+	toggleFollowingInProgress: (isFetching: boolean, userID: number) => void
+	onChangePage: (page: number) => void
+	onSearchUsers: (search: string, friend: null | boolean) => void
 }
 
 const Users = (props: PropsType) => {
 	const users = props.users.map((user: any) => (
 		<User
 			key={user.id}
+			selfID={props.selfID}
 			userID={user.id}
 			smallPhoto={user.photos.small}
 			name={user.name}
@@ -35,7 +39,7 @@ const Users = (props: PropsType) => {
 
 	return (
 		<section className={s.users}>
-			<h1>All users</h1>
+			<Search onSearchUsers={props.onSearchUsers} />
 			<div className={s.nav}>
 				<Pagination
 					onChangePage={props.onChangePage}

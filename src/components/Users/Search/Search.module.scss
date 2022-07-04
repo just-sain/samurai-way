@@ -1,0 +1,120 @@
+.form {
+	width: 100%;
+	margin-bottom: 1rem;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1.5rem;
+
+	.search {
+		width: 65%;
+		padding: 0.5rem 1rem;
+
+		background: #001e1d;
+		border: 0.3rem solid #fff;
+		border-radius: 1.5rem 25.5rem 1.5rem / 22.5rem 1.5rem 22.5rem 1.5rem;
+		box-shadow: 0 0 3rem #ffffff80;
+
+		color: #fffff0;
+		font-family: 'Marck Script', cursive;
+		font-size: 1.8rem;
+		font-weight: 400;
+
+		position: relative;
+		left: 0;
+
+		transition: all 0.3s ease;
+
+		&::placeholder {
+			color: #fffff095;
+		}
+
+		&:hover,
+		&:focus {
+			background: #001e1d;
+			border: 0.3rem solid #f9bc60;
+			border-radius: 23rem 2rem 23rem 2rem / 2rem 23rem 2rem;
+			box-shadow: 0 0 3rem #f9bc6080;
+			color: #fff;
+		}
+		&:focus {
+			outline: none;
+			box-shadow: 0 0 3rem #ffffff80;
+			left: -1rem;
+		}
+		&:hover {
+			box-shadow: 0 0 3rem #f9bc6080;
+		}
+	}
+
+	.filter {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+
+		input {
+			opacity: 0;
+			position: absolute;
+
+			&:checked + span::before {
+				background-color: #3197ee;
+				box-shadow: inset 0 0 0 4px #f4f4f4;
+			}
+			&:focus + span::before {
+				outline: none;
+				border-color: #3197ee;
+			}
+			&:disabled + span::before {
+				box-shadow: inset 0 0 0 4px #f4f4f4;
+				border-color: darken(#f4f4f4, 25%);
+				background: darken(#f4f4f4, 25%);
+			}
+		}
+
+		span {
+			cursor: pointer;
+			font-family: 'Marck Script', cursive;
+			font-size: 1.7rem;
+
+			&::before {
+				content: '';
+				width: 1.8rem;
+				height: 1.8rem;
+				margin-right: 0.5rem;
+				vertical-align: top;
+				display: inline-block;
+
+				background: #f4f4f4;
+				border-radius: 100%;
+				border: 1px solid darken(#f4f4f4, 25%);
+				text-align: center;
+
+				position: relative;
+				top: 0rem;
+
+				transition: all 0.3s ease;
+			}
+		}
+	}
+
+	.btn {
+		padding: 0.5rem 1.25rem;
+		cursor: pointer;
+
+		background: none;
+		border: 0.3rem dashed #f9bc6080;
+
+		color: #fffff0;
+		font-size: 1.8rem;
+		font-weight: 400;
+
+		transition: border 0.3s ease;
+
+		&:hover,
+		&:focus {
+			outline: none;
+			border-color: #f9bc60;
+		}
+	}
+}

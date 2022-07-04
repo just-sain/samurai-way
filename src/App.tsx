@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import store, { AppStateType } from './redux/redux-store'
+import { AppStateType } from './redux/redux-store'
 // action creators from reducers
 import { initializeApp } from './redux/appReducer'
 // hoc

@@ -1,8 +1,7 @@
-import { ThunkAction } from 'redux-thunk'
 import profileAPI from '../api/profile-api' // api
 // types
 import { TPhotos, TPost, TProfile, TUpdateProfile } from '../types/types'
-import { AppStateType, InferActionType } from './redux-store'
+import { InferActionType, TBaseThunk } from './redux-store'
 // action creators
 import { errorsActions } from './errorsReducer'
 
@@ -82,7 +81,7 @@ export const profileActions = {
 const allActions = { ...profileActions, ...errorsActions }
 
 // thunk creators
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionType>
+type ThunkType = TBaseThunk<ActionType>
 
 export const getFullProfile =
 	(userID: number): ThunkType =>
@@ -102,12 +101,12 @@ export const saveProfile =
 	(profileData: TUpdateProfile): ThunkType =>
 	async (dispatch, getState) => {
 		let id: null | number = getState().auth.data.id
-		if (!id) id = 0
 
 		const data = await profileAPI.updateProfile(profileData)
 
 		if (data.resultCode === 0) {
-			dispatch(getFullProfile(id))
+			if (id !== null) dispatch(getFullProfile(id))
+			else throw new Error('id is null')
 		}
 		dispatch(errorsActions.setProfileErrors(data.messages))
 	}

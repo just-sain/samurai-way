@@ -5,6 +5,7 @@ import profileImage from '../../../assets/img/blank-profile-picture.webp'
 import s from './User.module.scss'
 
 type PropsType = {
+	selfID: number
 	userID: number
 	smallPhoto: null | string
 	name: string
@@ -16,6 +17,19 @@ type PropsType = {
 }
 
 const User = (props: PropsType) => {
+	const buttonBlock = () => {
+		if (props.userID === props.selfID) {
+			return <button disabled>you</button>
+		}
+		return (
+			<button
+				disabled={props.followingInProgress.some(id => id === props.userID)}
+				onClick={() => props.changeFollow(!props.followed, props.userID)}>
+				{props.followed ? 'unfollow' : 'follow'}
+			</button>
+		)
+	}
+
 	return (
 		<div className={s.user}>
 			<div className={s.name}>
@@ -25,11 +39,7 @@ const User = (props: PropsType) => {
 					</NavLink>
 					<h3>{props.name}</h3>
 				</div>
-				<button
-					disabled={props.followingInProgress.some(id => id === props.userID)}
-					onClick={() => props.changeFollow(!props.followed, props.userID)}>
-					{props.followed ? 'unfollow' : 'follow'}
-				</button>
+				{buttonBlock()}
 			</div>
 			<div className={s.desc}>{props.status}</div>
 		</div>

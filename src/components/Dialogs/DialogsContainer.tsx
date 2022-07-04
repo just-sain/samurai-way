@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import withAuthNavigate from '../../hoc/withAuthNavigate' // HOC
 import Dialogs from './Dialogs' // common component
-import { sendMessage } from '../../redux/dialogsReducer'
+import { actions } from '../../redux/dialogsReducer'
 // types
 import { AppStateType } from '../../redux/redux-store'
 import { TDialogs, TMessages } from '../../types/types'
@@ -29,8 +29,7 @@ type TMapDispatch = {
 	sendMessage: (message: string) => void
 }
 
+const { sendMessage } = actions
+
 // from right to left
-export default compose(
-	connect<TMapState, TMapDispatch, {}, AppStateType>(mapStateToProps, { sendMessage }),
-	withAuthNavigate
-)(DialogsContainer)
+export default compose(connect<TMapState, TMapDispatch, {}, AppStateType>(mapStateToProps, { sendMessage }), withAuthNavigate)(DialogsContainer)
