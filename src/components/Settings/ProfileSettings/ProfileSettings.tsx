@@ -1,223 +1,57 @@
-import React, { useMemo, useEffect } from 'react'
-import { SubmitHandler, useForm, useFormState } from 'react-hook-form'
-
+import React, { memo, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
+// actions and thunks
+import { getFullProfileThunk, savePhotoThunk, updateStatusThunk, saveProfileThunk } from '../../../redux/profileReducer'
+// selectors
+import { getErrorMessages, getProfile, getStatus } from '../../../selectors/profile-selector'
+import { getAuth, getDataID } from '../../../selectors/auth-selector'
+// types
+import { TUpdateProfile } from '../../../types/types'
+import { AppDispatchType } from '../../../redux/redux-store'
+// components
+import Preloader from '../../common/Preloader/Preloader'
+import Form from './Form/Form'
+// styles
 import s from './ProfileSettings.module.scss'
-import errorStyle from '../../common/styles/errors.module.scss'
-import { TContacts, TProfile, TUpdateProfile } from '../../../types/types'
+import withAuthNavigate from '../../../hoc/withAuthNavigate'
 
-type TProps = {
-	id: number
-	profile: TProfile
-	status: string
-	messages: Array<string>
-	savePhoto: (photo: File) => void
-	updateStatus: (status: string) => void
-	saveProfile: (profile: TUpdateProfile) => void
-}
+const ProfileSettings = () => {
+	// selectors
+	const id = useTypedSelector(getDataID) as number,
+		profile = useTypedSelector(getProfile),
+		status = useTypedSelector(getStatus),
+		messages = useTypedSelector(getErrorMessages)
 
-const ProfileSettings = (props: TProps) => {
+	// dispatch
+	const dispatch = useDispatch<AppDispatchType>(),
+		updateStatus = (status: string) => dispatch(updateStatusThunk(status)),
+		saveProfile = (profileData: TUpdateProfile) => dispatch(saveProfileThunk(profileData)),
+		savePhoto = (photo: File) => dispatch(savePhotoThunk(photo))
+
+	// component did mount
+	useEffect(() => {
+		if (profile?.userId !== id) {
+			dispatch(getFullProfileThunk(id))
+		}
+	}, [])
+
+	// return
+	if (!profile || !status) return <Preloader />
 	return (
 		<section className={s.section}>
 			<h1 className={s.title}>Profile Settings</h1>
 			<Form
-				id={props.id}
-				profile={props.profile}
-				status={props.status}
-				messages={props.messages}
-				updateStatus={props.updateStatus}
-				saveProfile={props.saveProfile}
+				id={id}
+				profile={profile}
+				status={status}
+				messages={messages}
+				updateStatus={updateStatus}
+				savePhoto={savePhoto}
+				saveProfile={saveProfile}
 			/>
 		</section>
 	)
 }
 
-type TFormValues = {
-	fullName: string
-	aboutMe: string
-	isLookingForAJob: boolean
-	skills: string
-	contacts: TContacts
-	status: string
-}
-type TFormProps = {
-	id: number
-	profile: TProfile
-	status: string
-	messages: Array<string>
-	updateStatus: (status: string) => void
-	saveProfile: (profileData: TUpdateProfile) => void
-}
-
-const Form = (props: TFormProps) => {
-	const defaultValues = {
-		fullName: !props.profile.fullName ? '' : props.profile.fullName,
-		aboutMe: !props.profile.aboutMe ? '' : props.profile.aboutMe,
-		status: !props.status ? '' : props.status,
-		isLookingForAJob: !props.profile.lookingForAJob ? false : props.profile.lookingForAJob,
-		skills: !props.profile.lookingForAJobDescription ? '' : props.profile.lookingForAJobDescription,
-		contacts: { ...props.profile.contacts }
-	}
-	const {
-		handleSubmit,
-		register,
-		control,
-		reset,
-		getValues,
-		formState: { errors }
-	} = useForm<TFormValues>({
-		mode: 'onBlur',
-		defaultValues: useMemo(() => defaultValues, [props.profile, props.status])
-	})
-	const { isDirty } = useFormState({ control })
-
-	const onSubmit: SubmitHandler<TFormValues> = data => {
-		props.saveProfile({
-			fullName: data.fullName,
-			aboutMe: data.aboutMe,
-			lookingForAJob: data.isLookingForAJob,
-			lookingForAJobDescription: data.skills,
-			contacts: { ...props.profile.contacts }
-		})
-		props.updateStatus(data.status)
-	}
-
-	useEffect(() => {
-		reset(getValues())
-	}, [props.profile, props.status])
-
-	const capitalizeLetter = (string: string) => {
-		return string.charAt(0).toUpperCase() + string.slice(1)
-	}
-
-	return (
-		<form className={`${s.form}`} onSubmit={handleSubmit(onSubmit)}>
-			{/* immutable block with id  */}
-			<div className={s.formBlock}>
-				id: <span>{props.profile.userId}</span>
-			</div>
-			{/* fullName */}
-			<div className={s.formBlock}>
-				Full name
-				<input
-					{...register('fullName', {
-						required: 'full name field is required!',
-						maxLength: {
-							value: 50,
-							message: 'job description field max length is 50'
-						}
-					})}
-					type='text'
-					placeholder='Full name'
-				/>
-				<div className={`${errorStyle.error} ${errors.fullName && errorStyle.showTop}`}>
-					<span>{errors.fullName && errors.fullName.message}</span>
-				</div>
-			</div>
-			{/* aboutMe */}
-			<div className={s.formBlock}>
-				About me
-				<input
-					{...register('aboutMe', {
-						maxLength: {
-							value: 1000,
-							message: 'job description field max length is 1000'
-						}
-					})}
-					type='text'
-					placeholder='About me'
-				/>
-				<div className={`${errorStyle.error} ${errors.aboutMe && errorStyle.showTop}`}>
-					<span>{errors.aboutMe && errors.aboutMe.message}</span>
-				</div>
-			</div>
-			{/* status */}
-			<div className={s.formBlock}>
-				Status
-				<input
-					{...register('status', {
-						maxLength: {
-							value: 300,
-							message: 'job description field max length is 300'
-						}
-					})}
-					type='text'
-					placeholder='Status'
-				/>
-				<div className={`${errorStyle.error} ${errors.status && errorStyle.showTop}`}>
-					<span>{errors.status && errors.status.message}</span>
-				</div>
-			</div>
-			{/* lookingForAJob */}
-			<div className={s.formBlock}>
-				<label>
-					<input
-						{...register('isLookingForAJob')}
-						className={s.checkbox}
-						name='isLookingForAJob'
-						type='checkbox'
-						style={{ marginRight: '1rem' }}
-					/>
-					Looking for a job
-				</label>
-			</div>
-			{/* job description/skills */}
-			<div className={s.formBlock}>
-				<label>
-					Skills
-					<input
-						{...register('skills', {
-							maxLength: {
-								value: 300,
-								message: 'job description field max length is 300'
-							}
-						})}
-						type='text'
-						placeholder='Your skills'
-					/>
-				</label>
-				<div className={`${errorStyle.error} ${errors.skills && errorStyle.showTop}`}>
-					<span>{errors.skills && errors.skills.message}</span>
-				</div>
-			</div>
-			{/* contacts */}
-			{Object.keys(props.profile.contacts).map(key => (
-				<div className={s.formBlock} key={key}>
-					<label>
-						<span style={{ textTransform: 'capitalize' }}>{key === 'mainLink' ? 'Main' : capitalizeLetter(key)}</span>
-						<input
-							{...register(`contacts.${key}`)}
-							type='text'
-							placeholder={`${key === 'mainLink' ? 'Main' : capitalizeLetter(key)} link`}
-						/>
-					</label>
-				</div>
-			))}
-
-			{
-				// form errors
-				props.messages.length !== 0 && (
-					<div className={errorStyle.formError}>
-						{props.messages.map((text, index) => (
-							<p key={index}>{text}</p>
-						))}
-					</div>
-				)
-			}
-
-			{/* button */}
-			<div className={`${s.formBlock} ${s.blockBtns}`}>
-				{isDirty ? (
-					<button className={s.button} type='submit'>
-						Save
-					</button>
-				) : (
-					<button className={s.button} disabled type='submit'>
-						Save
-					</button>
-				)}
-			</div>
-		</form>
-	)
-}
-
-export default ProfileSettings
+export default memo(withAuthNavigate(ProfileSettings))

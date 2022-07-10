@@ -1,4 +1,4 @@
-import { authMe } from './authReducer'
+import { authMeThunk } from './authReducer'
 // types
 import { InferActionType, TBaseThunk } from './redux-store'
 
@@ -31,8 +31,8 @@ export const actions = {
 // thunks creators
 type TThunk = TBaseThunk<ActionType, void>
 
-export const initializeApp = (): TThunk => dispatch => {
-	const authMePromise = dispatch(authMe())
+export const initializeAppThunk = (): TThunk => dispatch => {
+	const authMePromise = dispatch(authMeThunk())
 
 	Promise.all([authMePromise]).then(() => {
 		dispatch(actions.initializedSuccess())

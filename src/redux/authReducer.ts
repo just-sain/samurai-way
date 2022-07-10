@@ -43,7 +43,7 @@ const allActions = { ...actions, ...errorsActions }
 // thunks, creators?!
 type ThunkType = TBaseThunk<ActionType>
 
-export const authMe = (): ThunkType => async dispatch => {
+export const authMeThunk = (): ThunkType => async dispatch => {
 	const data = await authAPI.getAuthMe()
 
 	if (data.resultCode === 0) {
@@ -52,24 +52,24 @@ export const authMe = (): ThunkType => async dispatch => {
 	}
 }
 
-export const login =
+export const loginThunk =
 	(email: string, password: string, rememberMe: boolean, captcha: null | string = null): ThunkType =>
 	async dispatch => {
 		const data = await authAPI.login(email, password, rememberMe, captcha)
 		if (data.resultCode === 0) {
-			dispatch(authMe())
+			dispatch(authMeThunk())
 		} else if (data.resultCode === 10) {
-			dispatch(getCaptcha())
+			dispatch(getCaptchaThunk())
 		}
 		dispatch(errorsActions.setLoginErrors(data.messages))
 	}
 
-export const getCaptcha = (): ThunkType => async dispatch => {
+export const getCaptchaThunk = (): ThunkType => async dispatch => {
 	const data = await securityAPI.getCaptcha()
 	dispatch(errorsActions.setLoginCaptcha(data.url))
 }
 
-export const logout = (): ThunkType => async dispatch => {
+export const logoutThunk = (): ThunkType => async dispatch => {
 	const data = await authAPI.logout()
 
 	if (data.resultCode === 0) {

@@ -1,41 +1,43 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+// thunks
+import { logoutThunk } from '../../redux/authReducer'
+// selectors
+import { getAuth, getData, getProfile } from '../../selectors/auth-selector'
 // types
-import { TData, TProfile } from '../../types/types'
-
-import logo from '../../assets/img/logo.svg'
+import { AppDispatchType } from '../../redux/redux-store'
+// styles
+import { classNames } from '../../index'
 import s from './Header.module.scss'
+import logo from '../../assets/img/logo.svg'
 
-type PropType = {
-	data: TData
-	profile: TProfile
-	isAuth: boolean
-	logout: () => void
-}
+const Header = () => {
+	const data = useSelector(getData)
+	const isAuth = useSelector(getAuth)
 
-const Header = (props: PropType) => {
-	const loginBlock = () => {
-		if (props.isAuth) {
-			return (
-				<div className={s.loginBlock}>
-					<NavLink to={`/profile/${props.data.id}`} className={s.userName}>
-						{props.data.login}
+	const dispatch: AppDispatchType = useDispatch()
+
+	const logout = () => dispatch(logoutThunk())
+
+	const loginBlock = () => (
+		<div className={s.loginBlock}>
+			{isAuth ? (
+				<>
+					<NavLink to={`/profile/${data.id}`} className={s.userName}>
+						{data.login}
 					</NavLink>
-					<NavLink to={`/login`} onClick={props.logout} className={`${s.signOut} ${s.authElem}`}>
+					<NavLink to={`/login`} onClick={logout} className={`${s.signOut} ${s.authElem}`}>
 						sign out
 					</NavLink>
-				</div>
-			)
-		} else {
-			return (
-				<div className={s.loginBlock}>
-					<NavLink to='/login' className={`${s.signUp} ${s.authElem}`}>
-						sign up
-					</NavLink>
-				</div>
-			)
-		}
-	}
+				</>
+			) : (
+				<NavLink to='/login' className={`${s.signUp} ${s.authElem}`}>
+					sign up
+				</NavLink>
+			)}
+		</div>
+	)
 
 	return (
 		<header className={s.header}>

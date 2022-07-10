@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import s from './Settings.module.scss'
@@ -19,4 +19,4 @@ const Settings = () => {
 	)
 }
 
-export default Settings
+export default memo(Settings)

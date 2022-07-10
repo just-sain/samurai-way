@@ -1,5 +1,6 @@
 import { Action, applyMiddleware, combineReducers, compose, createStore } from 'redux'
 import thunk, { ThunkAction } from 'redux-thunk'
+import { TypedUseSelectorHook, useSelector } from 'react-redux'
 
 import appReducer from './appReducer'
 import authReducer from './authReducer'
@@ -28,9 +29,10 @@ window.__store__ = store
 
 // const store = createStore(rootReducer, applyMiddleware(thunk))
 
+// types
 export type InferActionType<T> = T extends { [key: string]: (...args: any[]) => infer U } ? U : never // actions type
 export type TBaseThunk<A extends Action, P = Promise<void>> = ThunkAction<P, AppStateType, unknown, A> // thunk type
-// global types
 export type AppStateType = ReturnType<typeof store.getState>
+export type AppDispatchType = typeof store.dispatch
 
 export default store

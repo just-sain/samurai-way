@@ -1,36 +1,45 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+// actions
+import { dialogsActions } from '../../redux/dialogsReducer'
+// selectors
+import { getDialogMessages, getDialogs } from '../../selectors/dialogs'
+// components
 import DialogForm from './DialogForm/DialogForm'
-
 import DialogItem from './DialogItem/DialogItem'
 import MessageItem from './MessageItem/MessageItem'
+// types
+import { AppDispatchType } from '../../redux/redux-store'
+// styles
+import s from './Dialogs.module.scss'
 
-import { TDialogs, TMessages } from '../../types/types' // types
-import s from './Dialogs.module.scss' // styles
+const Dialogs = () => {
+	const dialogs = useSelector(getDialogs)
+	const messages = useSelector(getDialogMessages)
 
-type TProps = {
-	dialogs: Array<TDialogs>
-	messages: Array<TMessages>
-	sendMessage: (message: string) => void
-}
+	const dispatch: AppDispatchType = useDispatch()
 
-const Dialogs = (props: TProps) => {
-	const dialogs = props.dialogs.map(dialog => (
+	const sendMessage = () => {
+		dispatch(dialogsActions.sendMessage)
+	}
+
+	const dialogsFrag = dialogs.map(dialog => (
 		<DialogItem key={dialog.id} id={dialog.id}>
 			{dialog.name}
 		</DialogItem>
 	))
 
-	const messages = props.messages.map(message => <MessageItem key={message.id}>{message.text}</MessageItem>)
+	const messagesFrag = messages.map(message => <MessageItem key={message.id}>{message.text}</MessageItem>)
 
 	return (
 		<section className={s.dialog}>
 			<div className={s.dialogs}>
 				<h1 className={s.title}>Dialogs</h1>
-				{dialogs}
+				{dialogsFrag}
 			</div>
 			<div className={s.correspondence}>
-				<div className={s.messages}>{messages}</div>
-				<DialogForm sendMessage={props.sendMessage} />
+				<div className={s.messages}>{messagesFrag}</div>
+				<DialogForm sendMessage={sendMessage} />
 			</div>
 		</section>
 	)

@@ -1,76 +1,61 @@
-import React, { lazy } from 'react'
+import React, { lazy, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { AppStateType } from './redux/redux-store'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { AppDispatchType, AppStateType } from './redux/redux-store'
 // action creators from reducers
-import { initializeApp } from './redux/appReducer'
+import { initializeAppThunk } from './redux/appReducer'
 // hoc
 import withSuspense from './hoc/withSuspense'
 // components for default page
-import HeaderContainer from './components/Header/HeaderContainer'
-import AsideContainer from './components/Aside/AsideContainer'
+import Header from './components/Header/Header'
+import AsideContainer from './components/Aside/Aside'
 // common components
 import Preloader from './components/common/Preloader/Preloader'
 // errors page
 import Error404 from './components/errors/Error404/Error404'
-// styles
-import './App.scss'
+import { getInitialized } from './selectors/app'
 // suspense and loaded lazy components (components to routes)
-const LoginContainer = withSuspense(lazy(() => import('./components/Login/LoginContainer')))
-const ProfileContainer = withSuspense(lazy(() => import('./components/Profile/ProfileContainer')))
+const Login = withSuspense(lazy(() => import('./components/Login/Login')))
+const Profile = withSuspense(lazy(() => import('./components/Profile/Profile')))
 const News = withSuspense(lazy(() => import('./components/News/News')))
 const Music = withSuspense(lazy(() => import('./components/Music/Music')))
 const Settings = withSuspense(lazy(() => import('./components/Settings/Settings')))
-const ProfileSettingsContainer = withSuspense(lazy(() => import('./components/Settings/ProfileSettings/ProfileSettingsContainer')))
-const DialogsContainer = withSuspense(lazy(() => import('./components/Dialogs/DialogsContainer')))
-const UsersContainer = withSuspense(lazy(() => import('./components/Users/UsersContainer')))
+const ProfileSettings = withSuspense(lazy(() => import('./components/Settings/ProfileSettings/ProfileSettings')))
+const Dialogs = withSuspense(lazy(() => import('./components/Dialogs/Dialogs')))
+const Users = withSuspense(lazy(() => import('./components/Users/Users')))
 
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+const App = () => {
+	const initialized = useSelector(getInitialized)
 
-class App extends React.Component<PropsType> {
-	componentDidMount = () => {
-		this.props.initializeApp()
+	const dispatch: AppDispatchType = useDispatch()
+
+	useEffect(() => {
+		dispatch(initializeAppThunk())
+	}, [])
+
+	// render
+	if (!initialized) {
+		return <Preloader />
 	}
-
-	render = () => {
-		if (!this.props.initialized) {
-			return <Preloader />
-		}
-
-		return (
-			<div className='App'>
-				<HeaderContainer />
-				<AsideContainer />
-				<main className='main'>
-					<Routes>
-						<Route path='/' element={<News />} />
-						<Route path='/login' element={<LoginContainer />} />
-						<Route path='/profile/:id' element={<ProfileContainer />} />
-						<Route path='/dialogs/*' element={<DialogsContainer />} />
-						<Route path='/users' element={<UsersContainer />} />
-						<Route path='/music' element={<Music />} />
-						<Route path='/settings/profile' element={<ProfileSettingsContainer />} />
-						<Route path='/settings' element={<Settings />} />
-						<Route path='*' element={<Error404 />} />
-					</Routes>
-				</main>
-			</div>
-		)
-	}
+	return (
+		<div className='App'>
+			<Header />
+			<AsideContainer />
+			<main className='main'>
+				<Routes>
+					<Route path='/' element={<News />} />
+					<Route path='/login' element={<Login />} />
+					<Route path='/profile/:id' element={<Profile />} />
+					<Route path='/dialogs/*' element={<Dialogs />} />
+					<Route path='/users' element={<Users />} />
+					<Route path='/music' element={<Music />} />
+					<Route path='/settings/profile' element={<ProfileSettings />} />
+					<Route path='/settings' element={<Settings />} />
+					<Route path='*' element={<Error404 />} />
+				</Routes>
+			</main>
+		</div>
+	)
 }
 
-type MapStatePropsType = {
-	initialized: boolean
-}
-type MapDispatchPropsType = {
-	initializeApp: () => void
-}
-type OwnPropsType = {}
-
-const mapState = (state: AppStateType) => ({
-	initialized: state.app.initialized
-})
-
-export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapState, {
-	initializeApp
-})(App)
+export default App

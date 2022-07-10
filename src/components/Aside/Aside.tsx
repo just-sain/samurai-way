@@ -1,15 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+
+import { getDataID } from '../../selectors/auth-selector'
 
 import s from './Aside.module.scss'
 
-type PropsType = {
-	userID: null | number
-}
+const Aside = () => {
+	const userID = useSelector(getDataID)
 
-const Aside = (props: PropsType) => {
 	const links = [
-		{ path: props.userID ? `/profile/${props.userID}` : '/login', text: 'Profile' },
+		{ path: userID ? `/profile/${userID}` : '/login', text: 'Profile' },
 		{ path: '/dialogs', text: 'Dialogs' },
 		{ path: '/', text: 'News' },
 		{ path: '/users', text: 'Find Users' },

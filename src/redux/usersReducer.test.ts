@@ -1,4 +1,6 @@
-import usersReducer, { actions, initialStateType } from './usersReducer'
+import usersReducer, { actions, changeFollow, initialStateType } from './usersReducer'
+import usersAPI from '../api/users-api'
+import { TDefaultType } from '../api/api'
 
 // remember test is compose by 3 step
 // 1 step: initial state
@@ -120,4 +122,28 @@ test('unfollow success', () => {
 	// 3 step: expect
 	expect(newState.users[0].followed).toBeFalsy()
 	expect(newState.users[newState.users.length - 1].followed).toBeFalsy()
+})
+
+// testing thunk
+// mock api
+jest.mock('../api/users-api')
+const usersAPIMock = usersAPI
+
+const result: TDefaultType = {
+	resultCode: 0,
+	messages: [],
+	data: {}
+}
+
+// @ts-ignore
+usersAPIMock.followUser.mockReturnValue(Promise.resolve(result))
+
+test('dispatch mock should be called 3 times', async () => {
+	const thunk = await changeFollow(state.users[2].followed, 6)
+	const dispatchMock = jest.fn()
+
+	// @ts-ignore
+	thunk(dispatchMock)
+
+	expect(dispatchMock).toBeCalledTimes(3)
 })

@@ -109,9 +109,9 @@ export const changeFollow =
 		dispatch(actions.toggleFollowingInProgress(true, userID))
 
 		// defined which method we need to use
-		const apiMethod = doFollow ? await usersAPI.followUser(userID) : await usersAPI.unfollowUser(userID)
+		const data = doFollow ? await usersAPI.followUser(userID) : await usersAPI.unfollowUser(userID)
 
-		if (apiMethod.resultCode === 0) {
+		if (data.resultCode === 0) {
 			dispatch(actions.toggleFollow(userID))
 		}
 		dispatch(actions.toggleFollowingInProgress(false, userID))

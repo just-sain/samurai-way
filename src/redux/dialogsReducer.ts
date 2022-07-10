@@ -42,9 +42,9 @@ const dialogsReducer = (state: initialStateType = initialState, action: ActionTy
 }
 
 // action creators
-type ActionType = InferActionType<typeof actions>
+type ActionType = InferActionType<typeof dialogsActions>
 
-export const actions = {
+export const dialogsActions = {
 	sendMessage: (message: string) => ({ type: 'dialog/SEND_MESSAGE', message } as const)
 }
 

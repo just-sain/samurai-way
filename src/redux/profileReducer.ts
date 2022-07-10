@@ -83,21 +83,21 @@ const allActions = { ...profileActions, ...errorsActions }
 // thunk creators
 type ThunkType = TBaseThunk<ActionType>
 
-export const getFullProfile =
+export const getFullProfileThunk =
 	(userID: number): ThunkType =>
 	async dispatch => {
-		await dispatch(getProfile(userID))
-		await dispatch(getStatus(userID))
+		await dispatch(getProfileThunk(userID))
+		await dispatch(getStatusThunk(userID))
 	}
 
-export const getProfile =
+export const getProfileThunk =
 	(userID: number): ThunkType =>
 	async dispatch => {
 		const data = await profileAPI.getProfile(userID)
 		dispatch(profileActions.setUserProfile(data))
 	}
 
-export const saveProfile =
+export const saveProfileThunk =
 	(profileData: TUpdateProfile): ThunkType =>
 	async (dispatch, getState) => {
 		let id: null | number = getState().auth.data.id
@@ -105,13 +105,13 @@ export const saveProfile =
 		const data = await profileAPI.updateProfile(profileData)
 
 		if (data.resultCode === 0) {
-			if (id !== null) dispatch(getFullProfile(id))
+			if (id !== null) dispatch(getFullProfileThunk(id))
 			else throw new Error('id is null')
 		}
 		dispatch(errorsActions.setProfileErrors(data.messages))
 	}
 
-export const savePhoto =
+export const savePhotoThunk =
 	(photo: File): ThunkType =>
 	async dispatch => {
 		const data = await profileAPI.updatePhoto(photo)
@@ -121,14 +121,14 @@ export const savePhoto =
 		dispatch(errorsActions.setProfileErrors(data.messages))
 	}
 
-export const getStatus =
+export const getStatusThunk =
 	(userID: number): ThunkType =>
 	async dispatch => {
 		const data = await profileAPI.getStatus(userID)
 		dispatch(profileActions.setStatus(data))
 	}
 
-export const updateStatus =
+export const updateStatusThunk =
 	(status: string): ThunkType =>
 	async dispatch => {
 		const data = await profileAPI.updateStatus(status)

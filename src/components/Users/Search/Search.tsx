@@ -1,31 +1,44 @@
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { URLSearchParamsInit } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 
 import s from './Search.module.scss'
+import { TUsersSearchParams } from '../../../types/users-types'
 
-export type TFormValues = {
+type TFormValues = {
 	search: string
 	friend: string
 }
 type TProps = {
+	searchTerm: string
+	searchFriend: string
+	setSearchParams: (
+		nextInit: URLSearchParamsInit,
+		navigateOptions?:
+			| {
+					replace?: boolean | undefined
+					state?: any
+			  }
+			| undefined
+	) => void
 	onSearchUsers: (search: string, friend: null | boolean) => void
 }
 
 const Search = (props: TProps) => {
-	const [searchParams, setSearchParams] = useSearchParams()
-	const searchTerm = searchParams.get('search') || ''
-	let searchFriend = searchParams.get('friend') || ''
 	const { handleSubmit, register } = useForm<TFormValues>({
 		defaultValues: {
-			search: searchTerm,
-			friend: searchFriend === 'true' ? 'only' : searchFriend === 'false' ? 'not' : 'all'
+			search: props.searchTerm,
+			friend: props.searchFriend === 'true' ? 'only' : props.searchFriend === 'false' ? 'not' : 'all'
 		}
 	})
 
 	const onSubmit: SubmitHandler<TFormValues> = data => {
 		const { search, friend } = data
-		const resParams: any = {}
+		const resParams: TUsersSearchParams = {
+			term: '',
+			friend: '',
+			page: ''
+		}
 
 		let resultFriend: null | boolean = null
 		if (friend === 'only') resultFriend = true
@@ -35,9 +48,9 @@ const Search = (props: TProps) => {
 		if (resultFriend !== null) {
 			resParams.friend = resultFriend.toString()
 		}
-		if (search) resParams.search = search
+		if (search) resParams.term = search
 
-		setSearchParams(resParams)
+		props.setSearchParams(resParams)
 		props.onSearchUsers(search, resultFriend)
 	}
 
