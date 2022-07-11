@@ -23,6 +23,8 @@ const Settings = withSuspense(lazy(() => import('./components/Settings/Settings'
 const ProfileSettings = withSuspense(lazy(() => import('./components/Settings/ProfileSettings/ProfileSettings')))
 const Dialogs = withSuspense(lazy(() => import('./components/Dialogs/Dialogs')))
 const Users = withSuspense(lazy(() => import('./components/Users/Users')))
+// pages
+const ChatPage = withSuspense(lazy(() => import('./pages/ChatPage')))
 
 const App = () => {
 	const initialized = useSelector(getInitialized)
@@ -51,6 +53,7 @@ const App = () => {
 					<Route path='/music' element={<Music />} />
 					<Route path='/settings/profile' element={<ProfileSettings />} />
 					<Route path='/settings' element={<Settings />} />
+					<Route path='/chat' element={<ChatPage />} />
 					<Route path='*' element={<Error404 />} />
 				</Routes>
 			</main>

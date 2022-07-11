@@ -54,7 +54,6 @@ const Profile = () => {
 
 		// component will unmount
 		return () => {
-			console.log('cleaning up --> unmount ')
 			dispatch(profileActions.resetPage())
 		}
 	}, [])

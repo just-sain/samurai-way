@@ -11,8 +11,9 @@ const Aside = () => {
 
 	const links = [
 		{ path: userID ? `/profile/${userID}` : '/login', text: 'Profile' },
-		{ path: '/dialogs', text: 'Dialogs' },
 		{ path: '/', text: 'News' },
+		{ path: '/dialogs', text: 'Dialogs' },
+		{ path: '/chat', text: 'Chat' },
 		{ path: '/users', text: 'Find Users' },
 		{ path: '/music', text: 'Music' },
 		{ path: '/settings', text: 'Settings' }
