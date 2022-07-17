@@ -6,7 +6,6 @@ import Messages from './Messages/Messages'
 import { TChatMessage } from '../../pages/ChatPage'
 
 type TProps = {
-	isReady: boolean
 	sendMessage: (message: string) => void
 	chatMessages: TChatMessage[]
 }
@@ -15,7 +14,7 @@ const Chat = (props: TProps) => {
 	return (
 		<section className='p-10 flex' style={{ height: '100%', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'stretch' }}>
 			<Messages messages={props.chatMessages} />
-			<AddMessageForm isReady={props.isReady} sendMessage={props.sendMessage} />
+			<AddMessageForm sendMessage={props.sendMessage} />
 		</section>
 	)
 }

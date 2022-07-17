@@ -5,7 +5,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector'
 // actions thunks
 import { loginThunk } from '../../redux/authReducer'
 // selectors
-import { getAuth, getCaptchaURL, getDataID, getLoginErrorMessages } from '../../selectors/auth-selector'
+import { getAuth, getCaptchaURL, getDataID, getLoginErrorMessages } from '../../selectors/auth-selectors'
 // types
 import { AppDispatchType } from '../../redux/redux-store'
 // component

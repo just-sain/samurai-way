@@ -8,8 +8,8 @@ import Error404 from '../errors/Error404/Error404'
 import Posts from './Posts/Posts'
 import User from './User/User'
 // selectors
-import { getAuth, getDataID } from '../../selectors/auth-selector'
-import { getPosts, getStatus, getProfile } from '../../selectors/profile-selector'
+import { getAuth, getDataID } from '../../selectors/auth-selectors'
+import { getPosts, getStatus, getProfile } from '../../selectors/profile-selectors'
 // types
 import { AppDispatchType } from '../../redux/redux-store'
 // styles

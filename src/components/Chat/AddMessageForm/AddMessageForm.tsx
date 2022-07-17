@@ -7,7 +7,6 @@ type TFormValues = {
 	message: string
 }
 type TProps = {
-	isReady: boolean
 	sendMessage: (message: string) => void
 }
 
@@ -16,7 +15,7 @@ const AddMessageForm = (props: TProps) => {
 		register,
 		resetField,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors, isDirty }
 	} = useForm<TFormValues>()
 
 	const onSubmit: SubmitHandler<TFormValues> = data => {
@@ -40,8 +39,9 @@ const AddMessageForm = (props: TProps) => {
 				</div>
 			</div>
 			<button
-				disabled={!props.isReady}
+				disabled={!isDirty}
 				className='text-center text-indigo-400 font-bold rounded py-2 w-2/12 focus:outline-none bg-gray-900 border-2 border-indigo-400'
+				style={{ cursor: 'pointer' }}
 				type='submit'>
 				send
 			</button>

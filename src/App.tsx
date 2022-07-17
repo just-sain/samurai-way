@@ -13,7 +13,7 @@ import AsideContainer from './components/Aside/Aside'
 import Preloader from './components/common/Preloader/Preloader'
 // errors page
 import Error404 from './components/errors/Error404/Error404'
-import { getInitialized } from './selectors/app'
+import { getInitialized } from './selectors/app-selectors'
 // suspense and loaded lazy components (components to routes)
 const Login = withSuspense(lazy(() => import('./components/Login/Login')))
 const Profile = withSuspense(lazy(() => import('./components/Profile/Profile')))

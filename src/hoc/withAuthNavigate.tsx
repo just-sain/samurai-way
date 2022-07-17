@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom'
 // types
 import { AppStateType } from '../redux/redux-store'
 // selector
-import { getAuth } from '../selectors/auth-selector'
+import { getAuth } from '../selectors/auth-selectors'
 
 type TMapState = {
 	isAuth: boolean
@@ -14,6 +14,7 @@ const MapState = (state: AppStateType) => ({
 })
 
 const withAuthNavigate = (Component: any) => {
+	console.warn('this HOC is obsolete, please use custom hook --> useAuthNavigate')
 	class NavigateComponent extends React.Component<TMapState> {
 		render() {
 			const { isAuth, ...restProps } = this.props

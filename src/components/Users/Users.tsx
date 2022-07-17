@@ -1,12 +1,13 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useAuthNavigate } from '../../hooks/useAuthNavigate'
 // actions thunks
 import { actions, requestUsers, changeFollow as changeFollowThunk } from '../../redux/usersReducer'
 // selectors
 import { useTypedSelector } from '../../hooks/useTypedSelector'
-import { getDataID } from '../../selectors/auth-selector'
-import { getTotalUsersCount, getCurrentPage, getFollowingInProgress, getPageSize, getIsFetching, getUsers } from '../../selectors/users-selector'
+import { getDataID } from '../../selectors/auth-selectors'
+import { getTotalUsersCount, getCurrentPage, getFollowingInProgress, getPageSize, getIsFetching, getUsers } from '../../selectors/users-selectors'
 // types
 import { AppDispatchType } from '../../redux/redux-store'
 // components
@@ -50,7 +51,7 @@ const Users = () => {
 	}
 
 	// component did mount
-	useLayoutEffect(() => {
+	useEffect(() => {
 		let page: number = currentPage
 		if (page !== (searchPage !== null ? searchPage : page)) {
 			dispatch(actions.setCurrentPage(Number(searchPage)))

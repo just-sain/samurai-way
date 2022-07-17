@@ -8,6 +8,7 @@ import dialogsReducer from './dialogsReducer'
 import profileReducer from './profileReducer'
 import usersReducer from './usersReducer'
 import errorsReducer from './errorsReducer'
+import chatReducer from './chatReducer'
 
 const rootReducer = combineReducers({
 	// global
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
 	// pages
 	profilePage: profileReducer,
 	dialogsPage: dialogsReducer,
-	usersPage: usersReducer
+	usersPage: usersReducer,
+	chatPage: chatReducer
 })
 
 // redux extension in browser

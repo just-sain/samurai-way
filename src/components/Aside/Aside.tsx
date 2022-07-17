@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
-import { getDataID } from '../../selectors/auth-selector'
+import { getDataID } from '../../selectors/auth-selectors'
 
 import s from './Aside.module.scss'
 

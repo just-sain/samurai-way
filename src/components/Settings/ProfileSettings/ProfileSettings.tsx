@@ -1,11 +1,12 @@
 import React, { memo, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import { useAuthNavigate } from '../../../hooks/useAuthNavigate'
 // actions and thunks
 import { getFullProfileThunk, savePhotoThunk, updateStatusThunk, saveProfileThunk } from '../../../redux/profileReducer'
 // selectors
-import { getErrorMessages, getProfile, getStatus } from '../../../selectors/profile-selector'
-import { getAuth, getDataID } from '../../../selectors/auth-selector'
+import { getErrorMessages, getProfile, getStatus } from '../../../selectors/profile-selectors'
+import { getAuth, getDataID } from '../../../selectors/auth-selectors'
 // types
 import { TUpdateProfile } from '../../../types/types'
 import { AppDispatchType } from '../../../redux/redux-store'
@@ -17,6 +18,10 @@ import s from './ProfileSettings.module.scss'
 import withAuthNavigate from '../../../hoc/withAuthNavigate'
 
 const ProfileSettings = () => {
+	const { checkIfAuth } = useAuthNavigate()
+	useEffect(() => {
+		checkIfAuth()
+	}, [])
 	// selectors
 	const id = useTypedSelector(getDataID) as number,
 		profile = useTypedSelector(getProfile),
@@ -54,4 +59,4 @@ const ProfileSettings = () => {
 	)
 }
 
-export default memo(withAuthNavigate(ProfileSettings))
+export default memo(ProfileSettings)

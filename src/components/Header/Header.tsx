@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 // thunks
 import { logoutThunk } from '../../redux/authReducer'
 // selectors
-import { getAuth, getData, getProfile } from '../../selectors/auth-selector'
+import { getAuth, getData, getProfile } from '../../selectors/auth-selectors'
 // types
 import { AppDispatchType } from '../../redux/redux-store'
 // styles

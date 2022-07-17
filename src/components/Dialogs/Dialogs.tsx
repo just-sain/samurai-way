@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // actions
 import { dialogsActions } from '../../redux/dialogsReducer'
 // selectors
-import { getDialogMessages, getDialogs } from '../../selectors/dialogs'
+import { getDialogMessages, getDialogs } from '../../selectors/dialogs-selectors'
 // components
 import DialogForm from './DialogForm/DialogForm'
 import DialogItem from './DialogItem/DialogItem'
