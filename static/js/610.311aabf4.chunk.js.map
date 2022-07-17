@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/610.311aabf4.chunk.js","mappings":"oHAUA,UARa,WACZ,OACC,8BACC","sources":["components/News/News.tsx"],"sourcesContent":["import React from 'react'\r\n\r\nconst News = () => {\r\n\treturn (\r\n\t\t<section>\r\n\t\t\t<h1>let's go to watch the news</h1>\r\n\t\t</section>\r\n\t)\r\n}\r\n\r\nexport default News\r\n"],"names":[],"sourceRoot":""}
